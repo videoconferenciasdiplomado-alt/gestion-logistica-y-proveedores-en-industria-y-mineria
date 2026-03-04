@@ -1,0 +1,1772 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Presentación y objetivo del módulo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Introducción del profesor y perfil</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Presentación del profesor Gonzalo González como especialista en Supply Chain y logística: Máster en Dirección de Operaciones y Logística, >15 años de experiencia. Experiencia en compras estratégicas, análisis de datos, negociación y gestión de proyectos.</div>
+                  <div class="content-text">Experiencia profesional relevante: Gerente de logística y almacenes en Tecnominas SAC. Especialista senior en cadena de abastecimiento en Miner Consulting. Jefe de logística en Opermin SAC y jefe de compras estratégicas en SIA de Minas y Buenaventura.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=241" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:04:01)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Objetivos del módulo y temario</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Temas principales del curso: Gestión integral de exportaciones y conceptos estratégicos. Operaciones innovadoras y alternativas competitivas en exportaciones. INCOTERMS (características, clasificación y aplicación práctica — última versión ICC 2020/202X mencionada). Optimización tributaria, impuestos en comercio internacional y uso de Aduanet/Partidas arancelarias.</div>
+                  <div class="content-text">Enfoque y metodología: Aplicación práctica al sector minero con casos de estudio. Herramientas teóricas y estratégicas para industria y minería.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=440" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:20)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Gestión integral de exportaciones en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Concepto y características del proceso exportador</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Complejidad de la exportación en minería: Múltiples regulaciones, logística especializada y estrategias comerciales. Área comercial vende; logística actúa como soporte operativo.</div>
+                  <div class="content-text">Tipos de exportación: Exportación directa: venta sin intermediarios, mayor rentabilidad pero requiere equipo especializado. Exportación indirecta: uso de intermediarios/brokers, reduce carga operativa pero menor margen.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=540" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:09:00)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Mercados, tratados y documentación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Principales mercados destino: China, Estados Unidos y Unión Europea como mayores importadores de minerales.</div>
+                  <div class="content-text">Impacto de tratados y aranceles: Tratados de libre comercio reducen aranceles y mejoran competitividad.</div>
+                  <div class="content-text">Documentación y regulaciones aduaneras: Documentos clave: factura comercial, lista de empaque, certificado de origen, permisos ambientales. Posible necesidad de licencias específicas para minerales estratégicos (litio, uranio). Requisitos de certificación y pruebas de calidad (ISO u otras) exigidas por compradores.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=633" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:10:33)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Costos, financiamiento y organismos involucrados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tipos de costos asociados a exportación: Costos logísticos, tributarios y de almacenamiento. Costos de almacenamiento en bodegas antes del embarque.</div>
+                  <div class="content-text">Opciones de financiamiento y seguros: Créditos bancarios, cartas de crédito, factoring y seguros de exportación. Alternativas adicionales: crowdfunding industrial para proyectos, créditos de exportación respaldados por contratos internacionales.</div>
+                  <div class="content-text">Rol de organismos gubernamentales: SUNAT, Aduanas, MINEM y programas de apoyo a exportadores (incentivos fiscales, drawback).</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=795" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:13:15)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Procesos logísticos y operativos en exportación minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Cadena de suministro y transporte multimodal</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Gestión integrada de la cadena de suministro para exportación: Coordinación entre proveedores, operadores logísticos y clientes internacionales.</div>
+                  <div class="content-text">Modalidades de transporte: Terrestre (camión), ferroviario, tuberías/fajas transportadoras, marítimo (graneleros) y aéreo. Selección según costos, tiempos y regulaciones de seguridad.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=894" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:14:54)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Planificación de inventarios y digitalización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Gestión de inventarios y stocks: Evitar sobrecostos por almacenamiento y demoras en envíos.</div>
+                  <div class="content-text">Uso de software y tecnologías: TMS, ERP y herramientas con IA para optimizar rutas y minimizar costos. Beneficios de digitalización para trazabilidad y reducción de errores administrativos.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=916" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:16)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Seguridad, embalaje y trazabilidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Normas de embalaje y etiquetado: Requisitos internacionales, manejo de sustancias peligrosas y libro naranja de la ONU.</div>
+                  <div class="content-text">Trazabilidad y tecnología RFID/RFID-like: Sellos y tags de radiofrecuencia para minimizar robos y asegurar seguimiento.</div>
+                  <div class="content-text">Seguros y responsabilidad: Pólizas de carga, seguros por daños/retrasos y responsabilidad civil por impactos ambientales.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=1895" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:31:35)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Uso de inteligencia artificial en logística</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Aplicaciones prácticas de IA en análisis y productividad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">IA para procesamiento masivo de información: Ejemplo: análisis comparativo de memorias anuales / estados financieros de múltiples mineras. Reducción de tiempo: tareas que tardan días/semanas pueden realizarse en minutos/horas con IA adecuada.</div>
+                  <div class="content-text">Herramientas y limitaciones: Comparación entre múltiples AIs (ChatGPT, Grok, Gemini, etc.); algunas limitaciones en carga de archivos y calidad. Necesidad de prompt engineering para obtener resultados útiles. Herramientas gratuitas útiles mencionadas: Grok y otras plataformas gratuitas para comenzar.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=1035" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:17:15)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Casos de uso concretos de IA</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Automatización de informes y dashboards: Generación de ratios financieros, gráficos comparativos y recomendaciones en minutos.</div>
+                  <div class="content-text">Optimización logística con IA: Planificación de rutas, evaluación multimodal, análisis de cotizaciones de transportistas y selección de la mejor opción costo/tiempo. Modelos predictivos para optimizar rutas, mantenimiento preventivo y automatización de procesos aduaneros.</div>
+                  <div class="content-text">Precauciones y control de "alucinaciones": Uso de fuentes controladas o herramientas tipo "notebook LM" para reducir errores de generación.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=1336" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:22:16)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Regulaciones y acuerdos comerciales internacionales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Tipos de normativa e impacto en exportaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tratados de libre comercio y acuerdos comerciales: Reducción de aranceles, acceso preferencial y reglas de acumulación/origen.</div>
+                  <div class="content-text">Medidas comerciales y ambientales: Anti-dumping, subsidios extranjeros, restricciones ambientales y requisitos sociales multilaterales.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2117" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:35:17)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Procedimientos aduaneros y permisos especiales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Requisitos aduaneros y controles de origen: Declaraciones aduaneras, certificaciones fitosanitarias y reglas para embalajes (palets de madera).</div>
+                  <div class="content-text">Permisos especiales para minerales: Licencias y controles para minerales radioactivos o estratégicos.</div>
+                  <div class="content-text">Inspecciones y cumplimiento: Inspecciones privadas, autoridades de control y sanciones por incumplimiento.</div>
+                  <div class="content-text">Digitalización y ventanilla única: Integración de IA en inspección documental y digitalización de certificados (MUSE) para reducir tiempos de despacho.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2174" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:36:14)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Estrategias de reducción de costos y mejora de eficiencia</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Medidas operativas y de planificación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Planificación eficiente de rutas y uso de software de optimización: Minimizar costos y tiempos, especialmente para flotas propias.</div>
+                  <div class="content-text">Consolidación y optimización de carga: Agrupar envíos para reducir costo unitario por tonelada y aprovechar capacidad máxima de transporte.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2249" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:37:29)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Instrumentos financieros y fiscales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de zonas francas y beneficios fiscales: Zonas económicas especiales y incentivos tributarios aplicables a exportadores.</div>
+                  <div class="content-text">Contratos a largo plazo y negociación con proveedores: Contratos con transportistas y aseguradoras para reducir tarifas unitarias.</div>
+                  <div class="content-text">Cobertura y mitigación de volatilidad: Derivados financieros (futuros, forwards), cartas de crédito y factoring para mitigar riesgos de precio y liquidez.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2290" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:38:10)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Tecnologías emergentes para transparencia</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Blockchain para trazabilidad y seguridad documental: Registro inmutable de transacciones a lo largo de la cadena logística. Casos de implementación: IBM y adopciones locales en empresas mineras.</div>
+                  <div class="content-text">Plataformas electrónicas aduaneras: Agilizan despachos y reducen errores administrativos.</div>
+                  <div class="content-text">IoT y monitoreo en tiempo real: Sensores y GPS para reducir robos, optimizar tiempos de entrega y controlar condiciones de carga.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2312" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:38:32)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Caso práctico: Exportación de concentrados de cobre a China</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Contexto y objetivos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Empresa: Andes Copper S.A. busca exportar 50,000 toneladas de concentrado de cobre a China: Problemas: logística, tributación y regulaciones que afectan rentabilidad.</div>
+                  <div class="content-text">Objetivo del caso: Optimizar proceso para reducir costos y mejorar operación.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2421" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:40:21)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Decisiones clave y procesos aplicados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Selección de INCOTERM: Comparación FOB vs CIF; elección de CIF/SIF para reducir riesgos logísticos y asegurar cobertura de transporte.</div>
+                  <div class="content-text">Documentación y beneficios tributarios: Certificado de origen para beneficios arancelarios y aplicación de drawback para recuperar parte del IVA/exportaciones.</div>
+                  <div class="content-text">Logística de transporte y almacenamiento: Contratación de buque granelero desde Callao y uso de almacenes temporales para consolidación de carga.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2508" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:41:48)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.3</span>
+                  <span class="subsection-title">Resultados y lecciones aprendidas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Resultados cuantitativos y operativos: Reducción del 10% en costos logísticos por consolidación; ahorro de ~2 millones por beneficios tributarios; optimización del despacho en aduanas en 20%.</div>
+                  <div class="content-text">Lecciones: Elección del INCOTERM impacta costos y riesgos. Planificación logística eficiente y digitalización aceleran procesos y reducen errores administrativos.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2544" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:42:24)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Consultas prácticas y resolución de casos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Caso real: exportación temporal y nacionalización de equipos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Problema planteado: Retorno de equipos y piezas desde Panamá tras exportación temporal; contabilidad no refleja stock por falta de nacionalización.</div>
+                  <div class="content-text">Recomendaciones prácticas: Revisar régimen usado (exportación temporal vs definitiva) con un agente de aduanas. Preparar expediente explicativo y declaraciones juradas de valor para piezas desarmadas y usadas. Posibles alternativas: nacionalización por partes, cambio de régimen, valores referenciales para minimizar impuestos.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2611" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:43:31)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Interacción profesor-alumnos y recursos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Disponibilidad del profesor para asesorías: Contacto vía correo y LinkedIn (MG Gonzalo González).</div>
+                  <div class="content-text">Enfoque práctico de las últimas clases: Dos últimas sesiones del módulo reservadas para preguntas y casos prácticos presentados por alumnos.</div>
+                  <div class="content-text">Dinámica de participación: Incentivo al uso de IA y práctica de prompting para exprimir herramientas gratuitas y de pago; práctica de preguntas detalladas para obtener respuestas válidas.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=2904" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:48:24)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Consultas frecuentes y uso de fuentes para requisitos de destino</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Cómo investigar requisitos del país de destino</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Pasos recomendados: Identificar producto exacto y país destino. Consultar Cámara de Comercio del país destino para requisitos específicos. Usar IA para consultas rápidas y detalladas sobre permisos, aranceles y normativas, verificando con operadores locales.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=3269" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:54:29)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Demostración práctica de IA para requisitos de exportación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ejemplo en tiempo real: Consulta sobre exportación de cobre a China: IA detalla permisos, licencias, certificados de origen, inspecciones, aranceles y requisitos ambientales.</div>
+                  <div class="content-text">Ventajas y límites: IA agiliza recopilación de requisitos; requiere prompts bien formulados y verificación por expertos/operadores locales.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=3355" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:55:55)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Cierre y recomendaciones finales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Competencias y herramientas recomendadas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Habilidades requeridas para profesionales: Conocimientos en logística, comercio exterior y uso de IA para productividad.</div>
+                  <div class="content-text">Herramientas formativas sugeridas: Cursos en IA aplicada a logística, manejo de TMS/ERP y dominio de INCOTERMS y normativas aduaneras.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=3595" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:59:54)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Invitación a casos prácticos y continuidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Dinámica del curso: Participación activa con casos reales de alumnos para resolver en clase. Posibilidad de sesiones personalizadas y apoyo para CV o aplicación profesional mediante herramientas digitales.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=3114" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:51:54)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Mercado, intermediación y tendencias globales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Plataformas de comercio y actores clave</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mercados y plataformas electrónicas: LME (London Metal Exchange) como referencia global para precios y negociación de futuros. Plataformas blockchain emergentes para transacciones y trazabilidad.</div>
+                  <div class="content-text">Roles de traders y brokers: Traders (Glencore, Trafigura, BHP) y brokers facilitan colocación de productos, gestión documental y estrategia de cobertura. Funciones: conectar compradores/vendedores, organizar transporte y asesorar en coberturas de precio.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=4252" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:10:52)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Tendencias globales en comercio minero</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sostenibilidad y certificaciones: Creciente demanda de minerales con certificaciones ambientales (ISO 14001, IRMA) y prácticas responsables. Impacto en acceso a mercados y preferencias de compradores europeos y norteamericanos.</div>
+                  <div class="content-text">Expansión de mercados emergentes: Crecimiento de demanda en India y Sudeste Asiático por industrialización acelerada.</div>
+                  <div class="content-text">Digitalización y blockchain: Blockchain mejora seguridad documental, reduce intermediarios y facilita auditorías. Ejemplos locales: Minsur, Cerro Verde, empresas que integran blockchain e IA para trazabilidad y verificación de datos.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=4385" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:13:05)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Caso práctico: Implementación de blockchain en exportación minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Contexto y problemas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Empresa con dificultades en transferencias y fraude documental: Retrasos en certificación de origen, manipulación de datos por intermediarios y pérdida de confianza de clientes.</div>
+                  <div class="content-text">Objetivo de la implementación: Garantizar inalterabilidad documental y trazabilidad completa desde extracción hasta entrega en destino.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=4765" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:19:25)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Solución tecnológica y logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Selección de plataforma y contratos inteligentes: Uso de solución basada en Ethereum para compatibilidad con smart contracts; registro de cada etapa del proceso. Integración con sistemas de gestión documental y con sistemas aduaneros nacionales para verificación automatizada.</div>
+                  <div class="content-text">Optimización logística: Códigos QR vinculados a blockchain para verificación por compradores. Sensores IoT en contenedores para datos en tiempo real sobre ubicación y condiciones. Reducción de intermediarios y acceso directo de compradores a la información.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=4825" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:20:25)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.3</span>
+                  <span class="subsection-title">Resultados y lecciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Beneficios cuantitativos y cualitativos: Reducción del 40% en tiempos de aprobación por eliminación de errores documentales. Eliminación de fraude documental y mayor confianza de clientes internacionales. Optimización administrativa y logística por menos intermediarios.</div>
+                  <div class="content-text">Lecciones operativas: Digitalización y blockchain mejoran trazabilidad, cumplimiento y competitividad. Capacitación del personal y periodo de adaptación son necesarios para maximizar beneficios.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=4924" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:22:04)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">INCOTERMS: conceptos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Principios y características de los INCOTERMS</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición y propósito: International Commercial Terms: normas de la Cámara de Comercio Internacional para estandarizar responsabilidades entre comprador y vendedor. Delimitan asignación de costos, riesgos y responsabilidades por tipo de transporte.</div>
+                  <div class="content-text">Ventajas de su uso: Estabilización global y reducción de ambigüedades contractuales. Facilitan gestión financiera y reducen conflictos legales.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=5294" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:28:14)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Clasificación y aplicación multimodal</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Grupos según modalidad y responsabilidad: Multimodales aplicables a transporte aéreo, terrestre, marítimo y fluvial. Ejemplos: Ex Works (Fábrica), FCA (Free Carrier), CPT, CIP, DAP, DPU, DDP.</div>
+                  <div class="content-text">Distinciones clave: Ex Works: comprador asume costos y riesgos desde fábrica. FCA: vendedor entrega en punto designado; puede haber variantes (en planta sobre camión o en aeropuerto/puerto). CPT/CIP: vendedor paga transporte principal; en CIP incluye seguro; riesgo puede transferirse al transportista en punto acordado.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=5436" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:30:36)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">INCOTERMS: aplicación práctica</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">INCOTERMS marítimos específicos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Términos exclusivos para transporte marítimo/fluvial: FAS (Free Alongside Ship): vendedor pone la mercancía al costado del buque en puerto de embarque. FOB (Free On Board): vendedor coloca la mercancía a bordo del buque; riesgo se transfiere al cruzar la borda. CFR (Cost and Freight): vendedor paga flete hasta puerto de destino; riesgo se transfiere al cargar en el buque. CIF (Cost, Insurance and Freight): como CFR pero incluye seguro pagado por el vendedor.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=5895" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:38:15)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Consideraciones para elegir INCOTERM</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evaluación según naturaleza de la mercancía: Productos frágiles o de alto valor pueden requerir términos que incluyan seguro (CIF, CIP).</div>
+                  <div class="content-text">Infraestructura y experiencia del comprador: Compradores con menor capacidad logística pueden preferir DAP o DDP.</div>
+                  <div class="content-text">Transparencia y control: FOB y CIF frecuentemente usados en minería por equilibrio entre costos, riesgos y control logístico.</div>
+                  <div class="content-text">Importancia de especificar lugar y condiciones: Indicar ciudad/puerto (ej. FCA Shanghai, CIF Callao) y detallar si incluye descarga o trámites aduaneros.</div>
+                  <div class="content-text">Práctica de incorporación en documentos de transporte: Recomendación de incluir el INCOTERM en el conocimiento de embarque (BL), AWB o carta porte: Evita disputas sobre responsabilidades en caso de accidente o pérdida. Sirve como prueba contractual frente a navieras y aseguradoras.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=6001" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:40:01)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Preguntas, interacción en clase y cierre de sesión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Dudas sobre documentos y práctica en aula</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Importancia de conocer qué preguntar sobre documentación: Hacer preguntas pertinentes evita estar desprevenidos ante operadores y navieras. Insistir en claridad y documentación por escrito para evitar disputas posteriores.</div>
+                  <div class="content-text">Discusión sobre uso del INCOTERM en documentos de transporte: INCOTERMS no son una ley pero funcionan como estándar contractual aceptado: Deben aparecer en conocimientos de embarque (BL), guía aérea o carta porte para que la naviera y aseguradora reconozcan responsabilidades. Ausencia del INCOTERM en el documento complica reclamos tras accidentes o pérdidas.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=7200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:00)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Consecuencias prácticas de omitir INCOTERMS</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgos de no incluir INCOTERM en el BL u otros documentos: Dificultad para identificar responsable ante accidente marítimo o siniestro. Posibilidad de litigios largos y costosos sin prueba documental clara.</div>
+                  <div class="content-text">Recomendaciones operativas: Poner por escrito INCOTERM y detalles (punto exacto, ciudad/puerto) en todos los documentos. Verificar que el BL refleje el INCOTERM acordado y el pago del flete si corresponde. No asumir buena fe de proveedores; exigir constancia documental para protegerse.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=7260" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:01:00)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.3</span>
+                  <span class="subsection-title">Dinámica de preguntas y cultura profesional</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Fomento de preguntas aplicadas: Incentivo a los alumnos para traer casos reales y preguntas concretas. Repetición de la idea de que faltas en detalles básicos pueden costar empleos o demandas.</div>
+                  <div class="content-text">Actitud profesional esperada: Evitar prácticas "fast food" en documentación; aspirar a nivel profesional y responsabilidad en la gestión logística.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=7459" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:04:19)</span></a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.4</span>
+                  <span class="subsection-title">Cierre de la sesión y próximos pasos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Organización de próximas clases: Continuación con nuevas gráficas y análisis; últimas sesiones serán prácticas y abiertas a casos. Recordatorio de enviar grabación de la sesión y detalles de la próxima clase (día jueves 14 a las 7:30).</div>
+                  <div class="content-text">Contacto y seguimiento: Profesor comparte correo para consultas y solicitud de guías; invita a los alumnos a escribir con dudas o casos a revisar.</div>
+                  <div class="content-text">Agradecimiento y despedida: Reconocimiento al interés de los alumnos y reiteración de que pregunten siempre para aprovechar la formación.</div>
+                  <a href="https://www.youtube.com/watch?v=GTKZPjbHSdE&start=7570" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:06:10)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GESTIÓN LOGÍSTICA Y PROVEEDORES EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 08: ESTRATEGIAS AVANZADAS EN IMPORTACIONES, EXPORTACIONES E INCOTERMS - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

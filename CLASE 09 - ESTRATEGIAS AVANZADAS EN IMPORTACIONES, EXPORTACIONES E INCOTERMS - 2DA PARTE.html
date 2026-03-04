@@ -1,0 +1,1760 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Cambios y consideraciones sobre Incoterms</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Bienvenida y objetivos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Presentación del curso y del moderador académico: Indicación de canales de comunicación: chat y micrófonos.</div>
+                  <div class="content-text">Resumen del avance anterior y enfoque de la sesión: Se revisarán psicotermos (Incoterms), importación y herramientas de IA aplicadas a logística.</div>
+                  <div class="content-text">Cierre y coordinaciones finales sobre próximas sesiones y disponibilidad del profesor: Envío de grabación, canales de atención y horario de atención académica; próxima clase programada.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=411" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:06:51)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Actualizaciones y seguridad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Eliminación de DAT y reemplazo por DPU para mayor precisión en punto de entrega: DPU = entrega en lugar convenido sin descarga.</div>
+                  <div class="content-text">Aumento de cobertura mínima de seguros en Incoterms CIF/otros: Refuerzo de criterios de seguridad y trazabilidad en operaciones aduaneras.</div>
+                  <div class="content-text">Recomendación de póliza flotante para importadores frecuentes: Cobertura desde origen hasta almacén; prima mensual y por embarque.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=482" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:08:02)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Impacto de elección de Incoterm en costos y riesgos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Selección inadecuada provoca costos imprevistos y afecta rentabilidad: Incoterm define quién asume costos, riesgos e infraestructura logística.</div>
+                  <div class="content-text">Necesidad de coordinación con transportistas y aseguradoras para optimizar costos: Evaluar control deseado sobre la operación y la capacidad logística propia.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=528" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:08:48)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Estructura de costos de una importación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Componentes principales del costo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Costo de fábrica (precio en almacén del proveedor): Punto de partida ligado al Incoterm XWorks/EXW.</div>
+                  <div class="content-text">Gastos en origen: Transporte local, manipuleo (handling), carga y despacho en puerto/aeropuerto.</div>
+                  <div class="content-text">Flete internacional y seguro: Transición a Incoterms CPT/CFR/CIF según quién contrata flete/seguro.</div>
+                  <div class="content-text">Gastos en destino: Derechos aduaneros, handling, almacenaje, transporte local, agente aduanero, seguro local y costos financieros.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=634" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:10:34)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Cálculo de impuestos y base imponible</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Base imponible según SUNAT: costo producto (fábrica) + flete + seguro: Si no hay seguro, aduana aplicará un proceso estimado de seguro.</div>
+                  <div class="content-text">Tributos aplicables y su cálculo escalonado: Ad-valorem: porcentaje sobre base imponible según partida. ISC (Impuesto Selectivo al Consumo): porcentaje sobre base imponible + ad-valorem. IGV (16%) + IPM (2%) = 18% aplicado sobre base imponible + ad-valorem + ISC. Percepciones: porcentaje adicional calculado sobre suma previa.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=740" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:20)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Uso práctico de Incoterms en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Incoterms comunes y su aplicación minera</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">EXW (Fábrica): Vendedor minimiza responsabilidad; comprador asume transporte y trámites. Aplicable cuando comprador tiene red logística y quiere control total.</div>
+                  <div class="content-text">FOB (Free On Board): Vendedor responsable hasta embarque en buque; comprador gestiona flete/seguro. Usado para exportación de minerales a granel.</div>
+                  <div class="content-text">CIF (Cost, Insurance, Freight): Vendedor cubre flete y seguro hasta puerto de destino; comprador asume descarga y aduanas. Útil cuando comprador no gestiona seguros/fletes.</div>
+                  <div class="content-text">DAP / DPU / DDP: DAP: entrega en lugar acordado; vendedor asume transporte hasta ahí. DPU: entrega y descarga en lugar convenido (nuevo en 2020s). DDP: vendedor asume todos los costos hasta almacén del comprador. DDP reduce complejidad para comprador pero aumenta costo y carga para vendedor.</div>
+                  <div class="content-text">FCA (Free Carrier): Usado en multimodalidad para entregar en punto intermedio (puerto seco, terminal). Flexible para transbordos entre modos (camión, ferrocarril, aéreo).</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=908" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:15:08)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Factores y cálculo de costos logísticos según Incoterm</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Factores para seleccionar Incoterm</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Distancia y modo de transporte: aéreo más caro/rápido, marítimo más económico/lento.</div>
+                  <div class="content-text">Regulaciones aduaneras y permisos especiales.</div>
+                  <div class="content-text">Capacidad financiera del comprador/vendedor y flujo de caja.</div>
+                  <div class="content-text">Infraestructura en origen/destino: elegir Incoterm según deficiencias logísticas.</div>
+                  <div class="content-text">Control sobre la cadena de suministro: FOB/FCA para mayor control; CIF/DDP para menor complejidad comprador.</div>
+                  <div class="content-text">Necesidad de especificar lugar exacto de entrega en contratos mineros para evitar ambigüedades.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=1307" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:21:47)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Componentes influenciados por Incoterm</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Embalaje, carga y descarga: Algunos Incoterms (p. ej. DPU) incluyen descarga en destino.</div>
+                  <div class="content-text">Flete y seguro: CIF obliga seguro por contrato; comprador debería evaluar póliza adicional.</div>
+                  <div class="content-text">Derechos e impuestos de importación: En DDP vendedor asume pagos; en FOB lo asume comprador.</div>
+                  <div class="content-text">Almacenaje y costos por demoras documentarias: Documentación incompleta puede generar almacenaje diario y abandono legal.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=1470" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:24:30)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Relación peso-volumen y cálculo de fletes</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Concepto de densidad y su impacto</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Relación peso/volumen determina si se factura por peso o por volumen: Transportistas cobran el mayor entre peso real y peso volumétrico.</div>
+                  <div class="content-text">Valores típicos de equivalencia: Marítimo: 1 tonelada = 1 m³. Terrestre: 1 tonelada = 2 m³ (densidad mínima 0.5 t/m³). Aéreo: 1 tonelada = 6 m³ (0,1667 t/m³ o 166,7 kg/m³).</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=1752" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:29:12)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Ejemplo práctico marítimo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Embarque: volumen 12 m³, peso real 10 t: Densidad = 10 t / 12 m³ = 0,833 t/m³ < densidad mínima marítima 1 t/m³.</div>
+                  <div class="content-text">Cálculo de peso equivalente y flete: Peso equivalente = 12 m³ × 1 t/m³ = 12 t. Cobro por mayor: 12 t × tarifa (ej. 40 USD/t) = 480 USD.</div>
+                  <div class="content-text">Conclusión: clasificar como carga por volumen si densidad < mínima; ejemplos prácticos para entender impacto en tarifa.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=1982" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:33:02)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Agentes y documentación en proceso de importación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Actores involucrados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Proveedor y importador.</div>
+                  <div class="content-text">Agente embarcador y transportista en origen.</div>
+                  <div class="content-text">Agente de aduana y aduana nacional.</div>
+                  <div class="content-text">Transportista de destino, bancos (garantías/transferencias).</div>
+                  <div class="content-text">Instituciones sectoriales para permisos específicos (IPEN, MTC, etc.).</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=2398" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:39:58)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Documentos clave</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Factura comercial y packing list (lista de empaque).</div>
+                  <div class="content-text">Ficha técnica y certificado de origen (para preferencias arancelarias).</div>
+                  <div class="content-text">Guía aérea / conocimiento de embarque y póliza de seguro de transporte: Guía aérea (AWB): contrato de transporte aéreo, recibo del remitente, datos: expedidor, destinatario, vuelo, peso/volumen, tarifa y fecha. Bill of Lading (B/L): versión marítima del documento, sirve como recibo, contrato y título negociable; se emiten varios originales y exigen endoso para retiro.</div>
+                  <div class="content-text">Aviso de llegada y volante de despacho emitidos por depósito temporal.</div>
+                  <div class="content-text">DUA (Declaración Única de Aduanas) para declarar partidas, impuestos y detalles por artículo.</div>
+                  <div class="content-text">Permisos sectoriales según tipo de mercancía (insumos fiscalizados).</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=2511" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:41:51)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Uso operativo de la SUNAT/aduana (UNA) y búsqueda de partidas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Navegación y consulta de importaciones/exportaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Acceso a plataforma operativa de la aduana para consultar importaciones por RUC o nombre: Permite ver DUAs, canales de revisión (verde/naranja/rojo), valor FOB/CIF y detalles de embarque.</div>
+                  <div class="content-text">Visualización de detalle de partidas A1 (desglose de ítems, peso, envases, valores de flete y seguro): Ejemplo mostrado: importación de bicarbonato/sodio con toneladas y cajas detalladas.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=2693" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:44:53)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Consulta de partidas arancelarias y requisitos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Búsqueda por descripción o código de partida arancelaria: Resultado muestra arancel ad-valorem, ISC, IGV/IPM, seguro y convenios comerciales.</div>
+                  <div class="content-text">Verificación de convenios y exoneraciones (p. ej. TLC con China exonerando Ad-valorem).</div>
+                  <div class="content-text">Consulta de restricciones y permisos asociados a la partida: Ejemplo: cianuro de sodio aparece como insumo químico fiscalizado con normativa y permisos necesarios.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=3077" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:51:17)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Herramientas comerciales y análisis</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Servicios pagados vs acceso público</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Veritrade/Berishur ofrecen datos consolidados en Excel y paneles interactivos por suscripción.</div>
+                  <div class="content-text">Facilitan análisis por importador, exportador, valor FOB y generación de reportes.</div>
+                  <div class="content-text">Plataforma pública (UNA) es gratuita pero más lenta y manual.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=3360" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:56:00)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Integración con IA y visualización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de IA para automatizar extracción y visualización de datos aduaneros: Ejemplo: generación de mapas interactivos por país con valores FOB y gráficos coloreados.</div>
+                  <div class="content-text">Beneficio empresarial: comunicar fácilmente a gerencia mediante tablas dinámicas y mapas interactivos: Ahorro de tiempo frente a consulta manual en la plataforma pública.</div>
+                  <div class="content-text">Herramientas y recomendaciones prácticas: Pruebas con ~13 IAs: Gemini (recomendado, versión paga y gratuita), Check GPT, Perplexity, Grok y otras. Ventajas de versión paga: mayor capacidad de carga (ej. hasta 300 documentos), procesamiento más rápido y funciones avanzadas. Limitaciones de versiones gratuitas: límite de archivos por día (p. ej. 3 archivos), límite de tamaño; algunas IAs no procesan ciertos documentos. Casos de uso mostrados en clase: análisis de currículums, cotizaciones, estados financieros y comparativos entre memorias de mineras. Ejemplo práctico: cargar 9-10 memorias de empresas mineras y obtener ratios financieros y gráficos en minutos en vez de semanas. Recomendación de combinar herramientas según tarea y presupuesto: versiones Pro (~20 USD/mes) para usuarios frecuentes; planes empresariales más costosos para producción continua.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=3437" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:57:17)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Uso de IA para análisis de documentos y normativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Aplicaciones prácticas en logística e importaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Automatización de análisis financieros y comparativos entre proveedores: Cargar memorias anuales y extraer ratios clave (liquidez corriente, ROA, ROE, margen bruto/neto, rotación de activos) para evaluación rápida. Generación de informes y gráficos en minutos; pulido y correcciones posteriores en ~1 hora.</div>
+                  <div class="content-text">Resumen y extracción de normativas aduaneras: Cargar leyes, decretos y normas (psicotermos, reglas de Rotterdam/Haya, decretos supremos) para obtener mapas mentales, resúmenes y explicaciones sobre responsabilidad por retraso.</div>
+                  <div class="content-text">Apoyo en selección de agentes y propuestas: Comparar cotizaciones de agentes embarcadores y presentar opciones resumidas para gerencia.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=3600" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:00:00)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Limitaciones y mejores prácticas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Restricciones técnicas: Límite de tamaño y número de archivos en versiones gratuitas; algunas IAs no procesan ciertos formatos.</div>
+                  <div class="content-text">Validación humana necesaria: La carta de crédito y documentos de embarque requieren revisión experta; la IA ayuda a acelerar, pero no sustituye comprobación documental y supervisión física cuando es crítico.</div>
+                  <div class="content-text">Seguridad y confidencialidad: Usar versiones y proveedores que cumplan estándares de seguridad cuando se cargan datos sensibles.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=3600" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:00:00)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Guía aérea, bill of lading y carta de crédito</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Guía aérea y Bill of Lading</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Guía aérea (AWB): Contrato de transporte aéreo, recibo del remitente, acredita aceptación de la carga y contiene datos: expedidor, destinatario, vuelo, aeropuerto origen/destino, peso, volumen, tarifa y fecha. Sirve como evidencia del embarque y factura de flete.</div>
+                  <div class="content-text">Bill of Lading (B/L): Contrato y recibo en transporte marítimo; suele emitirse en tres originales y copias. Funciona como título negociable: quien posea el B/L puede retirar la mercancía; bancos lo aceptan como garantía en operaciones de crédito.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=5089" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:24:49)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Carta de crédito: definición y flujo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición y propósito: Compromiso de un banco (emisor) en nombre del comprador de pagar al vendedor contra la presentación de documentos que cumplan condiciones especificadas. Garantía documentaria para transacciones internacionales con largos tiempos de tránsito.</div>
+                  <div class="content-text">Flujo de apertura y cobro: Negociación comprador-vendedor → comprador solicita apertura al banco emisor → banco emisor envía crédito al banco corresponsal → banco corresponsal notifica al beneficiario/exportador. Para cobrar: vendedor presenta documentos al banco de origen → banco de origen envía documentos al banco del comprador → banco local entrega documentos al importador contra pago o aceptación y remite fondos al exterior.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=5405" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:30:05)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.3</span>
+                  <span class="subsection-title">Tipos de carta de crédito y cláusulas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tipos recomendados: Confirmada: banco corresponsal asume pago al verificar documentos (más seguro y más caro). Irrevocable: no puede modificarse sin consentimiento de todas las partes. Intransferible: no puede cederse a terceros. A la vista: pago inmediato al presentar documentos conformes.</div>
+                  <div class="content-text">Cláusulas especiales: Cláusula roja: adelanto sin entrega de documentos (muy riesgosa). Cláusula verde: adelanto contra garantía (warrant u otro certificado). Recomendación: solicitar crédito confirmada, irrevocable, intransferible y a la vista cuando sea posible.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=5649" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:34:09)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.4</span>
+                  <span class="subsection-title">Riesgos, costos y consideraciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Costos bancarios elevados para apertura, modificaciones y ejecuciones: Importador debe evaluar tarifas y condiciones; errores de llenado son costosos.</div>
+                  <div class="content-text">La carta de crédito garantiza documento, no la veracidad física de la carga: Recomendación: supervisión independiente en origen, inspecciones y fotografías para evitar fraudes.</div>
+                  <div class="content-text">Documentos requeridos para cobrar: Factura comercial, certificado de seguro, documento de transporte (B/L, AWB o guía terrestre), entre otros.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=6681" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:51:21)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Cobranza documentaria y transferencias internacionales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Procedimiento de cobranza</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Flujo de cobranza a la vista: Vendedor envía mercancías y documentos al banco de origen → banco de origen remite documentos al banco del importador → importador paga al banco local → banco local paga al banco exterior → vendedor recibe pago y banco local entrega documentos al importador.</div>
+                  <div class="content-text">Uso de códigos interbancarios (SWIFT/BIC): SHIF/SWIFT para identificar bancos y facilitar transferencias internacionales.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=6151" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:42:31)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Comparación con cartas de fianza y otros instrumentos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Carta de crédito vs carta de fianza: Carta de crédito: garantía documentaria y compromiso de pago internacional. Carta de fianza: garantía local para cumplimiento de obligaciones; similar en finalidad pero distinto alcance y uso.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=6467" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:47:47)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Contratos mineros y redacción de Incoterms en contratos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Elementos críticos a incluir</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Descripción clara del Incoterm seleccionado y lugar exacto de entrega: Evitar ambigüedades con la ciudad/puerto exacto.</div>
+                  <div class="content-text">Asignación de costos y responsabilidades: Detallar qué asume cada parte en transporte, seguro, almacenamiento y permisos.</div>
+                  <div class="content-text">Plazos, penalidades y condiciones de pago: Establecer sanciones por retrasos y mecanismos de ajuste de precios en contratos de largo plazo.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=6889" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:54:49)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Riesgos, seguros y resolución de disputas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgos y seguros: Definir quién contrata y paga seguros; recomendación de cobertura propia adicional.</div>
+                  <div class="content-text">Cláusulas de resolución de disputas y arbitraje: Incluir mecanismo de arbitraje internacional para reducir costos judiciales.</div>
+                  <div class="content-text">Mecanismos de mitigación legal: Asesoría legal especializada, revisiones asistidas por IA y cláusulas de ajuste por variaciones de costos (combustible, fletes, aranceles).</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=6971" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:56:11)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Casos prácticos: contrato de compra-venta y selección de agente aduanero</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Contrato de compra-venta de mineral</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Elementos esenciales en el contrato usando Incoterm CIF (ejemplo: SIF Shanghai): Objeto: venta y entrega de concentrado de cobre con especificación de pureza (ej. 99,5%). Identificación del Incoterm y versión aplicable (si no se indica, se asume la más reciente).</div>
+                  <div class="content-text">Precios, condiciones de pago y plazos de entrega: Precio unitario ejemplo: 8.500 USD/tonelada; pago mediante carta de crédito confirmada irrevocable a la vista. Plazo de entrega: ejemplo 45 días desde la firma del contrato.</div>
+                  <div class="content-text">Obligaciones documentarias y cláusulas contractuales: Documentos requeridos: factura comercial, conocimiento de embarque, certificado de calidad. Seguro y cobertura mínima conforme a Incoterms 2020. Cláusula de resolución de disputas: arbitraje (por ejemplo, Cámara de Comercio Internacional en París). Fuerza mayor: definición y efectos sobre plazos de entrega.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=7200" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:00)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Selección y comparación de agente aduanero</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Estructura típica de cotización de un agente aduanero: Comisión por agenciamiento: porcentaje sobre valor SIF con mínimo aplicable. Gastos operativos: monto fijo por embarque que cubre movilidad, despacho, equipos y documentación.</div>
+                  <div class="content-text">Criterios de comparación y evaluación: Comparar comisión SIF, comisión mínima y costos operativos según demanda mensual. Validar que la proforma incluya percepciones, derechos y terceros; revisar que las partidas arancelarias y tributos estén correctamente aplicados.</div>
+                  <div class="content-text">Caso real ilustrativo: Ejemplo donde un importador pagó una percepción del 3.5% sobre valor FOB en su primera importación por desconocimiento. Consecuencia: pago adelantado de percepciones que puede afectar margen o viabilidad de la operación.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=7350" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:02:30)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Percepciones, régimen y riesgos operativos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Concepto y aplicación de percepciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Naturaleza de la percepción: Pago anticipado del IGV sobre operaciones de importación; calculada aplicando porcentaje sobre el importe de la operación más tributos.</div>
+                  <div class="content-text">Momentos de exigibilidad y compensación: Percepción aplicada antes de la entrega de la mercadería; el importador puede deducirla mensualmente del IGV declarado o compensarla en periodos siguientes.</div>
+                  <div class="content-text">Casos especiales y primeros importes: Primera importación puede implicar tasas más altas (ej. 3.5% o 5% según caso) y exigir pago en efectivo anticipado.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=7560" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:06:00)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Preguntas frecuentes y documentación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cómo declarar la percepción: Uso de formatos PDT y registros donde se consigna el monto percibido y su sustentación.</div>
+                  <div class="content-text">Documento que sustenta el pago: Equivalencia de cobranza emitida por la aduana o comprobante de pago de la percepción.</div>
+                  <div class="content-text">Límites y exclusiones: No se aplica percepciones a ciertos regímenes o cuando proceden exoneraciones; verificar normativa por partida.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=7894" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:11:34)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Impuestos y barreras en comercio exterior</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Principales tipos de tributos en importación/exportación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Modalidades de aranceles: Ad-valorem: porcentaje sobre valor CIF/FOB aplicado comúnmente. Específico: monto fijo por unidad, peso o volumen (ej. combustibles, agrícolas). Mixto: combinación de ad-valorem y específico.</div>
+                  <div class="content-text">Impuestos indirectos y devoluciones: IGV/IVA aplicable en importaciones; devolución a exportadores por adquisición de insumos en ciertos regímenes.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=7977" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:12:57)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Medidas proteccionistas y sanitarias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Derechos antidumping y compensatorios: Aplicados cuando se demuestra venta por debajo de costo o subsidios; regulados por investigación según OMC.</div>
+                  <div class="content-text">Impuestos selectivos al consumo: Aplicados a bienes nocivos (alcohol, tabaco, combustibles) y afectan costos de importación/exportación.</div>
+                  <div class="content-text">Requisitos fitosanitarios y fumigación de embalajes: Certificados de fumigación y tratamiento de palets exigidos por destino; incumplimiento puede llevar a destrucción de la carga (caso de exportación de flores).</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=8066" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:14:26)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="16">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">16</span>
+              <span class="section-title">Ejemplos reales y lecciones prácticas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.1</span>
+                  <span class="subsection-title">Casos ilustrativos y consecuencias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Impacto de desconocer normas: cargas destruidas por falta de certificaciones (pallets, fumigación): Ejemplo: exportador de flores pierde toda la carga por rechazo fitosanitario en destino.</div>
+                  <div class="content-text">Costos por errores en percepciones y aranceles: Caso del alumno que pagó 2.000 USD adicionales por percepción en su primera importación; le afectó margen de la operación.</div>
+                  <div class="content-text">Recomendación práctica: Asesorarse en normativa de destino, verificar partidas arancelarias y anticipar percepciones para evitar pagos sorpresa.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=8186" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:16:26)</span> </a>
+                </div>
+              </div>
+            </div>
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.2</span>
+                  <span class="subsection-title">Resumen y disponibilidad para dudas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Confirmación de comprensión: navegación en aduana, búsqueda de partidas, uso de Incoterms, documentos clave y aplicaciones de IA.</div>
+                  <div class="content-text">Invitación a preguntar y aclarar dudas sobre cualquier punto visto en clase.</div>
+                  <div class="content-text">Información adicional y contacto: Profesor disponible por correo para consultas y apoyo en temas de IA y productividad.</div>
+                  <div class="content-text">Próximos pasos y despedida: Recordatorio de próxima clase, recomendación de conectarse minutos antes y buenos deseos de fin de semana.</div>
+                  <a href="https://www.youtube.com/watch?v=vL2jObYR0jE&start=8323" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:18:43)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GESTIÓN LOGÍSTICA Y PROVEEDORES EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 09: ESTRATEGIAS AVANZADAS EN IMPORTACIONES, EXPORTACIONES E INCOTERMS - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

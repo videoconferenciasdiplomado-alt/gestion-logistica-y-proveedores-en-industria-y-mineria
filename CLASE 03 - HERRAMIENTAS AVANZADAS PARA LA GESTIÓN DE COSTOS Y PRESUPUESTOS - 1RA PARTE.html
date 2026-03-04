@@ -1,0 +1,1801 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Marco legal y definición de contratos mineros</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Bienvenida y dinámica inicial</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Saludo del profesor y monitoreo de asistentes: Indicación de uso del chat del MIT para consultas. Presentación breve de la asesora académica y entrega de la palabra al profesor.</div>
+                  <div class="content-text">Objetivos de la sesión anunciados: Índice: definición, contratos mineros, tipos, ciclo de vida, planificación, riesgos y coordinación técnica.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=4" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:00:04)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Legislación y reglamentos aplicables</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Texto Único Ordenado (TUO) de la Ley General de Minería (Decreto Supremo 014): Contiene reglamentos relevantes como Decreto Supremo 03 y Título IX (2493).</div>
+                  <div class="content-text">Ley de Formalización y Promoción de la Pequeña Minería y Minería Artesanal (Ley 27651): Reglamentada por Decreto Supremo 03-2002 de Energía y Minas.</div>
+                  <div class="content-text">Reglamento de Inscripciones de Derechos Mineros y registros públicos (SUNARP/SONAR): Define requisitos para actividades de extracción y explotación.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=384" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:06:24)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Naturaleza y características del contrato minero</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Contrato minero como instrumento jurídico que otorga derechos de exploración y/o explotación: Contratos con el Estado; otorgan concesiones, no propiedad privada plena.</div>
+                  <div class="content-text">Características jurídicas principales: Objeto: derecho minero; consensuales (acuerdo mutuo), nominados (tienen nombre y regulación), y regulados por código civil (art. 162 TUO).</div>
+                  <div class="content-text">Distinción entre contratos formales, operativos, de primeros y terceros: Contratos con terceros para operaciones y con primeros para roles ejecutivos dentro de la minera.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=535" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:08:55)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Tipos de contratos mineros y modalidades operativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Tipos generales de contratos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Contrato de transferencia: Transfiere parte de los derechos para explotación por un grupo económico; puede ser parcial o total.</div>
+                  <div class="content-text">Opción y cesión minera: Estado licita derechos; cesionario no obtiene propiedad plena pero sí uso de recursos acordados; la opción minera permite evaluación sin compromiso total.</div>
+                  <div class="content-text">Hipoteca minera: Uso de derechos mineros como garantía.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=733" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:12:13)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Modalidades contractuales por riesgo y remuneración</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgo compartido (joint venture): Distribuye riesgos y beneficios entre socios; útil en etapas con incertidumbre técnica o financiera.</div>
+                  <div class="content-text">Contrato de estabilidad: Plazos largos (10-30 años) con condiciones fijas y compromisos de responsabilidad social.</div>
+                  <div class="content-text">Contrato de explotación y de avío: Explotación: enfoque en operación; Avío: suministro y preferencia de acreedores, define aportes de capital y responsabilidades operativas.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=837" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:13:57)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Modalidades por forma de pago y alcance</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Contrato suma global (precio fijo): Precio cerrado por proyecto; simplicidad en facturación, contratista asume sobrecostos.</div>
+                  <div class="content-text">Contrato por precio unitario: Pago por unidad; ideal para tareas repetitivas; coste total incierto si aumenta producción.</div>
+                  <div class="content-text">Contrato de costo más (cost-plus): Reembolso de costos más margen; flexible en incertidumbre; puede encarecer si faltan recursos humanos o materiales.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=940" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:40)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Ciclo de vida de la mina y planificación contractual</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Fases del ciclo de vida</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Prospección: Identificación y evaluación de viabilidad; estudios geológicos y prefactibilidad.</div>
+                  <div class="content-text">Desarrollo y construcción: Infraestructura, plantas, transporte y energía; tercerización masiva y contratación de múltiples proveedores.</div>
+                  <div class="content-text">Producción: Extracción y procesamiento continuo; turnos 24/7 y maximización de vida útil.</div>
+                  <div class="content-text">Cierre y rehabilitación: Desmantelamiento, recuperación del terreno y entrega al Estado.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=1381" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:23:01)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Etapas de inversión y condicionantes</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Preinversión: descubrimiento, estudios de prefactibilidad y factibilidad: Define si procede la inversión y el diseño del proyecto.</div>
+                  <div class="content-text">Inversión: construcción, operación, expansión, cierre y poscierre: Requiere licencia social, evaluación ambiental y contratos operativos firmados.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=1739" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:28:59)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Planificación, control contractual y gestión de riesgos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Importancia de la planificación en minería</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Planificación para maximizar productividad y cumplimiento de objetivos a largo plazo: Planificación de operación, tercerización y recursos humanos demandados.</div>
+                  <div class="content-text">Necesidad de documentación y control diario: Confirmaciones por correo, cumplimiento de plazos y trazabilidad de decisiones.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=1841" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:30:41)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Riesgos operativos y sociales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgos físicos: Derrumbes, explosiones, incendios, atrapamientos por maquinaria, ruidos y vibraciones.</div>
+                  <div class="content-text">Riesgos eléctricos y de trabajo en altura: Alta tensión en grupos electrógenos; medidas especiales.</div>
+                  <div class="content-text">Riesgos químicos y manejo de sustancias peligrosas: Polvo de sílice, gases, soda cáustica; planes de contingencia ante derrames.</div>
+                  <div class="content-text">Riesgos psicosociales y ergonómicos: Fatiga, estrés, movimientos repetitivos; pausas y ergonomía.</div>
+                  <div class="content-text">Riesgos biológicos (mención secundaria): Menos relevantes en minería pero aplicables a otros sectores.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=2245" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:37:25)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Mitigación y controles</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implementación de planes de gestión y evaluación de riesgos (matriz IPER): Identificación de controles, inspecciones y mantenimiento preventivo.</div>
+                  <div class="content-text">Homologación y requisitos para personal y proveedores: Homologación exige cumplimiento de EPP y procedimientos; no elimina todos los riesgos.</div>
+                  <div class="content-text">Efectividad de mitigación: Controles típicos reducen hasta ~80% del riesgo; el 20% restante está ligado a conducta humana.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=2606" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:43:26)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Coordinación de áreas técnicas y cadena de suministro minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Comunicación interáreas y stakeholders</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Coordinación entre área técnica, legal y logística: Gestión de expectativas: Estado, comunidades y desarrollo económico.</div>
+                  <div class="content-text">Prevención de disputas y conflicto social: Claridad de responsabilidades y cumplimiento de acuerdos comerciales y urbanísticos.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=2765" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:46:05)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Logística y aprovisionamiento específico de minería</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cadena de suministro integra entregas, tecnología, inventarios y transporte de materiales peligrosos: Gestión de hidrocarburos, explosivos, ácidos y suministros sanitarios.</div>
+                  <div class="content-text">Sistemas de almacenamiento y rotación: FIFO/LIFO según conveniencia; planificación de reposición periódica (7, 10, 15 días).</div>
+                  <div class="content-text">Gestión de transporte y KPIs operativos: Definición de origen/destino, tarifas, anticipación y número de viajes mensuales.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=2780" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:46:20)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Rol y presión del área logística</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Amplio alcance de responsabilidades en campamentos aislados: Alimentos, aseo, transporte de personal, compras y evaluación de proveedores.</div>
+                  <div class="content-text">Restricciones y reglas prácticas: Suministros básicos, contratos de mantenimiento y gestión de transportes se rigen por contrato.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=3012" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:50:12)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Contratación, pagos, y relaciones entre minera y contratistas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Formalización y cláusulas contractuales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ejemplo de contrato de locación de servicios y supervisión (OCINARMIN): Cláusulas: vigencia, retribución, obligaciones del locador y bases del proceso de contratación.</div>
+                  <div class="content-text">Cláusulas frecuentes: confidencialidad, penalidades y resolución: Penalidades establecidas, nulidad o resolución contractual por acciones indebidas; sanciones legales fuertes por incumplimiento de cláusulas sobre manejo de información.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=3344" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:55:44)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Relación económica entre minera y contratistas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mecanismo de pagos por avance y reparto entre contratista y subcontratistas: La minera paga el monto acordado; contratista gestiona tercerización y márgenes.</div>
+                  <div class="content-text">Realidad salarial para personal tercerizado: Diferencia entre mercado y pago neto al trabajador; parte puede ir a caja del contratista o subcontratistas.</div>
+                  <div class="content-text">Obligaciones adicionales del contratista: Contratación de seguros, exámenes médicos ocupacionales y cumplimiento de fiscalizaciones; incumplimientos generan acciones legales.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=3433" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:57:13)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Buenas prácticas finales y recomendaciones operativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Seguridad, cumplimiento y reputación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Contratista debe asumir seguros y servicios médicos ocupacionales para su personal: Exámenes médicos obligatorios y responsabilidad sobre salud ocupacional.</div>
+                  <div class="content-text">Importancia de cumplir contratos para mantener reputación en el sector: Incumplimientos cierran puertas en futuros procesos de contratación.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=3586" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:59:46)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Consejos para profesionales del sector</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Iniciar y terminar bien los compromisos para mantener posibilidad de reincorporación: La red del sector conoce a los actores y la reputación afecta oportunidades futuras.</div>
+                  <div class="content-text">Desarrollo profesional: Jóvenes con tolerancia a la adrenalina deben afianzar habilidades blandas y experiencia en logística minera.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=2188" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:36:28)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Estrategias de contratación y mercado proveedor</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Análisis del mercado proveedor y desafíos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tamaño y facturación del sector minero: Sector con facturaciones altas (ej.: 30–40 millones en grandes empresas) que genera demanda significativa para proveedores.</div>
+                  <div class="content-text">Composición del mercado proveedor: Perú cuenta con decenas de proveedores mineros nacionales y mercados locales/regionales; exportaciones relevantes desde Perú, Brasil y México.</div>
+                  <div class="content-text">Diversificación, innovación y adaptación: Nuevos mercados internacionales y adopción tecnológica son claves para competir y atraer inversión extranjera.</div>
+                  <div class="content-text">Riesgos y oportunidades: Inestabilidad política es el principal enemigo; puede provocar salida del mercado y cierre de exportaciones.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=4213" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:10:13)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Precalificación y conocimiento del ecosistema</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Precalificación de proveedores y padrón de contratistas: Permite rastreabilidad, sustentabilidad y apoyo a programas de responsabilidad social; la información suele ser confidencial.</div>
+                  <div class="content-text">Conocimiento del mercado local y regional: Importante para integrar proveedores locales en programas de impacto social y logística.</div>
+                  <div class="content-text">Colaboración entre proveedores: Fomentar alianzas que fortalezcan capacidades y adaptación tecnológica.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=4442" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:02)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Proceso de licitación y evaluación de propuestas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Etapas del proceso de licitación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Convocatoria y anuncio público: Publicación en portales (MINEM, PerúMin, NEM); bases públicas con requisitos técnicos y administrativos.</div>
+                  <div class="content-text">Recepción y apertura de ofertas: Presentación en sobres cerrados; documentos originales dirigidos al contratante; confidencialidad en la información.</div>
+                  <div class="content-text">Evaluación técnica y económica: Fase técnica: cumplimiento de TDR, capacidad, metodología y criterios objetivos. Fase económica: comparación de costos, coherencia con técnica y cálculo de puntaje ponderado.</div>
+                  <div class="content-text">Adjudicación (Buena Pro): Contrato adjudicado al postor cuya oferta se ajuste de forma sustancial y ofrezca la mejor relación precio–técnica.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=4949" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:22:29)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Requisitos y formatos en bases de licitación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Documentos típicos en bases: Convocatoria, formularios, modelo de contrato, memoria descriptiva, especificaciones técnicas y planos.</div>
+                  <div class="content-text">Carta de compromiso y equipo propuesto: Detalle de personal clave (ingeniero residente con colegiatura), equipo propio y alquilado, y experiencia en obras similares.</div>
+                  <div class="content-text">Modelos de contrato y precios: Precios unitarios, condiciones de contratación, cronogramas y formatos (cuaderno de obra, actas, constancia de visita).</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=6178" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:42:58)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Selección, seguimiento y control de contratistas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Criterios de selección y homologaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Homologaciones y certificaciones como filtro alto: Experiencia previa directa en minería es requisito diferenciador; falta de homologación o experiencia puede inviabilizar la propuesta.</div>
+                  <div class="content-text">Compatibilidad con requerimientos de capacidad productiva y personal operativo: Minas establecen mínimos en unidades producidas y plantilla operacional.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=5008" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:23:28)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Seguimiento, control y órdenes de cambio</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Seguimiento contractual: Verificación de fianzas, seguros, comunicaciones, cumplimiento de alcance, costo y tiempo.</div>
+                  <div class="content-text">Pagos progresivos y órdenes de cambio: Pagos por avance, órdenes de cambio justificadas por variaciones de tiempo o alcance; vigencia documentaria y checklists de obra.</div>
+                  <div class="content-text">Gestión de múltiples contratos por un mismo contratista: Riesgo de proliferación de contratos que exceden capacidad; necesidad de priorizar recursos y evitar incumplimientos.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=5414" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:30:14)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Gestión interna del contratista y buenas prácticas operativas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Autonomía y obligaciones del contratista</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Potestad de gestión interna tras firma contractual: Mina observa y puede opinar sobre gestión interna, pero no impone favoritismos; exige cumplimiento de requisitos para personal y materiales.</div>
+                  <div class="content-text">Responsabilidad sobre selección de personal: Requisitos de títulos, homologaciones y experiencia para operar maquinaria y puestos clave.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=5165" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:26:05)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Capacidad, mano de obra y calidad del servicio</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Selección de mano de obra calificada vs soluciones económicas: Contratar personal no calificado puede generar riesgos operativos; profesionales experimentados cobran más pero reducen fallos.</div>
+                  <div class="content-text">Programas de avance y control: Minas inclusivas exigen programas de seguimiento y avance de obra para verificar cumplimiento contractual.</div>
+                  <div class="content-text">Cláusulas de recesión y sanciones: Algunas minas aplican resolución contractual por incumplimiento grave; otras ofrecen flexibilidad según madurez de la compañía.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=5497" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:31:37)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Metodologías de gestión de proyectos aplicadas a contratos mineros</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Recomendaciones de gestión y bibliografía</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Aplicación de gestión de proyectos (PMBOK / Pedro Boca): Herramientas: acta constitutiva, actas de seguimiento, gestión de cartera, planificación de puesta en marcha y cierre, lecciones aprendidas.</div>
+                  <div class="content-text">Beneficios para contratistas y equipos: Mejora la negociación, ejecución, puesta en marcha y cierre de contratos; útil para estructurar portafolio y entregables.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=5772" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:36:12)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Implementación práctica</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Adaptación de diagramas y lineamientos (PER, GAN): Uso de diagramas de flujo y herramientas de gestión para estandarizar procesos de contratación y ejecución.</div>
+                  <div class="content-text">Capacitación y lectura recomendada: Fomentar desarrollo de habilidades en gestión de proyectos para responsables de seguridad, logística y contratos.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=5844" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:37:24)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Análisis SPEN y metodología de evaluación de proveedores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Etapas del análisis SPEN y diagnóstico inicial</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Paso 1: análisis de situación actual y gasto por proveedor: Construir "pastel" de gasto anual por proveedor para identificar quién genera mayor utilidad o mayor gasto.</div>
+                  <div class="content-text">Paso 2: análisis de categoría y priorización: Seleccionar proveedores con mayor capacidad y volumen de relación (p. ej. proveedor con 30 contratos vs 3) para evaluación prioritaria.</div>
+                  <div class="content-text">Paso 3: levantamiento de información y especificación: Obtener datos de proveedores clave, revisar modelo de pago, reajustes de precio, moneda e índices de referencia (IPC, petróleo).</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=7203" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:03)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Variables y criterios técnicos para evaluación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Componentes del análisis técnico: Precio, calidad, disponibilidad de recursos, alcance, limitaciones y compatibilidad con otras empresas.</div>
+                  <div class="content-text">Indicadores por división y KPIs: Disponibilidad, utilización, rendimiento, familia de equipos, multas, diseño y equipos cautivos.</div>
+                  <div class="content-text">Estructura de costos del proveedor: Separar costos directos (cercanía, mano de obra) de costos indirectos (sector); revisar mantenimiento y capacidad de respuesta.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=7251" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:51)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Herramientas, buenas prácticas de mercado y evaluación cualitativa</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Metodologías recomendadas y verificación de información</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Uso de metodologías ágiles (Scrum) para organizar evaluaciones técnicas y generación de indicadores: Generar indicadores por división y estructurar paneles de control para seguimiento.</div>
+                  <div class="content-text">Verificación cruzada de disponibilidad y desempeño: No basarse solo en la declaración del proveedor; solicitar referencias y retroalimentación de otras minas cercanas.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=7436" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:03:56)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Prácticas de mercado y análisis macroeconómico</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Buenas prácticas del proveedor: Planificación, equipo técnico de inspección, paneles de control, negociación, entrenamiento de personal y cláusulas de reajuste.</div>
+                  <div class="content-text">Análisis macroeconómico relevante: Monitorizar variación del dólar y del barril de petróleo; afectan costos y reajustabilidad de contratos.</div>
+                  <div class="content-text">Análisis de competencia: Identificar competidores relevantes y comparar parámetros de incidencia, modelos de negociación y sistemas de mantenimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=7579" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:06:19)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Matrices, filtros y estrategia final de contratación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Filtros de proveedores y criterios cuantitativos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Filtros y categorías: Proveedores invitados, participantes, oferentes y vigentes; verificar homologación, capacidad productiva, financiera y disponibilidad de mano de obra.</div>
+                  <div class="content-text">Uso de fuentes públicas para verificación: Consulta de ficha RUG en SUNAT para historial de personal, variaciones de trabajadores y facturación como indicadores de estabilidad.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=7885" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:11:25)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Construcción de la estrategia y matriz de evaluación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Componentes de la estrategia: Determinar porcentaje de equipos a arrendar, mejorar indicadores, adoptar tecnología y definir formas de pago (anticipado, 50-50, por avances).</div>
+                  <div class="content-text">Matriz de criterios y ponderaciones: Evaluar inversión, potencial de ahorro, tiempo de puesta en marcha, riesgos, gestión y nivel de servicio; puntuar de 1 a 5 para ponderación.</div>
+                  <div class="content-text">Escenarios y toma de decisiones: Matriz de escenarios (actual, mejorado, bajo costo planificativo) para definir la estrategia final y la metodología de actuación.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=7925" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:12:05)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="16">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">16</span>
+              <span class="section-title">Proceso metodológico consolidado y cierre de clase</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.1</span>
+                  <span class="subsection-title">Secuencia metodológica para estrategia de contratación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Pasos integrados: Análisis de situación actual, análisis SPEN, especificación de contratista, revisión de contratos vigentes, análisis técnico, estructura de costos y evaluación de mercado.</div>
+                  <div class="content-text">Resultado esperado: Generación de una metodología que permita definir modalidad de servicio, filtros de proveedores, criterios de evaluación y escenarios de contratación.</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=8165" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:16:05)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">16.2</span>
+                  <span class="subsection-title">Clausura, preguntas y comunicaciones finales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Resolución de dudas y agradecimientos: Revisión final de la metodología y confirmación de comprensión por parte de los asistentes.</div>
+                  <div class="content-text">Información administrativa y próxima sesión: Envío de grabación, próxima sesión programada, horarios de atención y canales de contacto para coordinación académica (08:00–18:30, lunes a viernes).</div>
+                  <a href="https://www.youtube.com/watch?v=QjrbPhbWn6Q&start=8241" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:17:21)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GESTIÓN LOGÍSTICA Y PROVEEDORES EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 03: HERRAMIENTAS AVANZADAS PARA LA GESTIÓN DE COSTOS Y PRESUPUESTOS - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

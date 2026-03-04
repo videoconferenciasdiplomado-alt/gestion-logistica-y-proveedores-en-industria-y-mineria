@@ -1,0 +1,1541 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Marco normativo y entidades rectoras</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Presentación general</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Explicación del alcance: seguridad y normativa en control de inventarios y logística minera: Temas principales: marco normativo, régimen de seguridad y salud ocupacional, control de insumos químicos, regulación de transporte e hidrocarburos. Actividades: inspecciones y auditorías, preparación y respuesta ante emergencias.</div>
+                  <div class="content-text">Enfoque docente: guía detallada para alineamiento normativo y minimización de riesgos: Importancia de ajustar gestión de inventarios y logística a regulaciones nacionales e internacionales. Énfasis en cumplimiento continuo y adaptación normativa.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=480" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:08:00)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Ley general de minería y reglamentos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ley general como piedra angular y TUO aprobado por decreto supremo (referencia a 014-926M): Derivación del decreto legislativo 109 y otros decretos complementarios. Tipos de concesiones: minera, de beneficio, labor general y transporte minero.</div>
+                  <div class="content-text">Reglamentos clave: reglamento de la ley general de minería y reglamento de proyectos mineros: Desarrollo de procedimientos, requisitos para concesionarios y trámites administrativos ante autoridad minera. Finalidad: evitar minería ilegal y asegurar cumplimiento administrativo.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=562" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:09:22)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Entidades fiscalizadoras y competencias</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">MINEM y otras autoridades sectoriales (SUNAFIL, SUNAT, SUCAMIC, MTC): MINEM: rector y políticas de concesiones, aprobación de normas y cierre. SUNAFIL: fiscalización de seguridad y sanciones laborales.</div>
+                  <div class="content-text">SUCAMEC y control de explosivos: Autoridad del Ministerio del Interior para regular adquisición, almacenamiento, transporte y uso de explosivos. Procedimientos administrativos (TUPA) para licencias de polvorines y adquisiciones.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=771" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:12:51)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Régimen de seguridad y salud ocupacional en minería</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Decreto supremo 024-2006 y enfoque por sistemas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Objetivo: prevención de incidentes, accidentes y enfermedades ocupacionales: Promoción de cultura de prevención con participación de empleadores, trabajadores y Estado.</div>
+                  <div class="content-text">Transición a gestión por sistemas: identificación de peligros, evaluación de riesgos y medidas de control (IPERC): Requisitos documentales: IPERC, procedimientos de trabajo seguro (PETS), registros de capacitación y actas firmadas.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=939" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:15:39)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Obligaciones del titular minero y responsabilidades</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Implementación de sistema de gestión SSO, políticas, comités y provisión de recursos: Provisión gratuita de EPP adecuados y capacitación teórica y práctica. Exámenes médicos (preocupacionales, periódicos y retiro) y gestión de accidentes.</div>
+                  <div class="content-text">Responsabilidad extendida y sanciones penales/administrativas: Ejemplo judicial: responsabilidad penal del gerente general por accidente de contratista. Obligatoriedad de demostrar capacitación y señalización; suspensión de operaciones ante riesgo inminente.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=1253" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:20:53)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Fiscalización, sanciones y ejemplos operativos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Facultades de fiscalización y procedimientos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">SUNAFIL y SUNAT pueden ingresar, solicitar documentación, entrevistar personal y ordenar paralizaciones: Clasificación de infracciones: leves, graves y muy graves; obligación de subsanar en plazos.</div>
+                  <div class="content-text">Sanciones administrativas y consecuencias legales: Posibilidad de multas significativas, procesos sancionadores y remisión a Ministerio Público.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=1616" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:26:56)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Casos y lecciones prácticas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ejemplos reales para ilustrar responsabilidad empresarial y consecuencias: Caso de trabajador contratado fallecido por falta de capacitación: responsabilidad penal del gerente general. Accidente de transporte con multa posterior por SUNAFIL pese a acuerdos extrajudiciales con familiares.</div>
+                  <div class="content-text">Mensajes operativos: registros firmados, capacitaciones periódicas, certificaciones vigentes y auditorías a contratistas: Importancia de auditar empresas de transporte y aplicar mismos estándares de seguridad de la minera.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=1062" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:17:42)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Control de insumos químicos y bienes fiscalizados (IQVF)</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Doble régimen y objetivos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Dos prismas regulatorios: lucha antidrogas y control contra minería ilegal: Decreto legislativo 1126 y reglamento (044-2013) para precursores; fiscalización por SUNAT y apoyo policial. Decreto legislativo 1103 para control de insumos y maquinaria vinculada a minería ilegal.</div>
+                  <div class="content-text">Participación interinstitucional: SUNAT, Policía Nacional, Ministerio Público y PRODUCE: Finalidad: prevenir desvíos, combatir narcotráfico y evitar evasión tributaria.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=1719" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:28:39)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Obligaciones ante SUNAT y trazabilidad digital</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Inscripción en registro para control de bienes fiscalizados y renovaciones periódicas: Requisitos: registro inicial, renovaciones cada dos años, modificaciones y bajas.</div>
+                  <div class="content-text">Registro diario de operaciones y reporte mensual vía plataforma SUNAT: Trazabilidad digital por unidad (entradas, consumos, ventas, traslados y mermas). Necesidad de sistemas internos (ERP/TI) alineados para evitar inconsistencias que alerten a fiscalizadores.</div>
+                  <div class="content-text">Proceso práctico de inscripción y operación en SUNAT Virtual: Pasos: completar formularios, enviar código de confirmación por correo, agregar actividades fiscalizadas y establecimientos. Requisitos por establecimiento: número de partida registral, áreas de terreno y almacenamiento, documentos de autorización y datos del responsable. Registro de bienes fiscalizados: selección de ítems, adjuntar informe técnico y documentos sustentatorios, validación y descarga de constancia vía SOL. Rubro adicional: inscripción de conductores y vehículos con número de registro MTC para transporte.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=1851" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:30:51)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Lista de bienes focalizados y control de hidrocarburos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Decreto supremo 268-2019: lista oficial de IQVF relevantes para minería: Ejemplos incluidos: ácido sulfúrico, cianuro, mercurio, hipoclorito de sodio, gasolina, diésel, acetona. Requisitos especiales para transporte y rutas fiscales en combustibles.</div>
+                  <div class="content-text">Implicaciones operativas: control estricto en almacenaje, transporte y uso: Uso de vías autorizadas, transportistas inscritos y registro de cada movimiento como requisito legal.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=1971" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:32:51)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Régimen de explosivos y SUCAMEC</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Competencias y obligaciones de SUCAMEC</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Autorizaciones, licencias y guías de tránsito para cada traslado de explosivos: Requisitos para adquisición, uso y transporte; autorizaciones con vigencias y controles técnicos.</div>
+                  <div class="content-text">Directivas de almacenamiento y especificaciones técnicas para polvorines: Tipos de polvorines: superficiales, subterráneos y móviles. Requisitos constructivos, distancias de seguridad y registros de ingresos/egresos.</div>
+                  <div class="content-text">Procedimiento administrativo para polvorines (TUPA SUCAMEC): Formatos y pasos: formulario FUD, pago de derecho, planos de planta y perfil, plazos estimados (ej. 16 días en Lima, 22 en provincias). Requisitos documentales para autorización de adquisición y uso, y normas especiales para mineros en proceso de formalización.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=2164" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:36:04)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Inspección, vigencia y exigencias técnicas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Vigencia de autorizaciones y estímulo a inversión en infraestructura segura: Autorizaciones de almacenamiento hasta 5 años si se acreditan estándares altos.</div>
+                  <div class="content-text">Fiscalización interinstitucional en operativos con SUNAT, Ministerio del Interior y PRODUCE: Actuaciones conjuntas en incautaciones y sanciones; posible traslado de expedientes al Ministerio Público.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=2335" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:38:55)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Registro y trámites en SUNAT para bienes fiscalizados</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Proceso de inscripción y plataforma</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Acceso a SUNAT Virtual mediante clave SOL y trámite en "Registro para control de bienes fiscalizados": Pasos: nueva solicitud, declaración de entendimiento, llenado de formulario y generación de número de solicitud.</div>
+                  <div class="content-text">Información requerida: ficha RUC, características del establecimiento, responsables legales y técnicos: Documentación digitalizada y gestión de solicitudes (inscripción, actualización, suspensión, baja, renovación).</div>
+                  <div class="content-text">Operación del sistema y documentación exigida: Sistema informático de SUNAT para trazabilidad y control integral. Funciones: presentación de solicitudes en línea, envío de PDF y reprogramación de visitas de fiscalización. Alcance regulatorio: controla producción, importación, exportación, envasado, comercialización, transporte y almacenamiento. Recomendaciones prácticas: leer guía completa, usar herramientas de transcripción/resumen de videos para capacitación y consulta de módulos extensos.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=3453" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(00:57:33)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Mensajes finales y próximas actividades</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Gestión logística en minería exige integración normativa, técnica y operativa: Coordinación entre áreas internas y cumplimiento de múltiples autoridades: MTC, SUNAT, SUCAMEC, MINEM, SUNAFIL.</div>
+                  <div class="content-text">Recomendaciones prácticas finales: Auditar contratistas y transportistas, mantener registros y capacitaciones vigentes, disponer de seguros y planes de contingencia aprobados. Usar herramientas digitales para trazabilidad y formación continua.</div>
+                  <div class="content-text">Recursos complementarios: Materiales y videos de refuerzo compartidos en PPT y canales del curso; invitación a profundizar mediante módulos y consultas por correo.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=5009" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:23:29)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Recomendaciones operativas y herramientas digitales</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Uso práctico de plataformas y digitalización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Guía paso a paso para completar registros en línea (SUNAT y otros): Confirmación vía correo con código, aceptación de declaración de entendimiento, agregar actividades fiscalizadas, establecimientos, bienes y documentación técnica. Adjuntar informes técnicos, presentar solicitud online y descargar constancia de presentación en buzón SOL. Registro de conductores y vehículos con número de registro MTC para actividades de transporte.</div>
+                  <div class="content-text">Importancia de sistemas internos integrados (ERP/TI) para mantener trazabilidad y coherencia en reportes.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=3604" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:00:04)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Aprovechamiento de IA para capacitación y productividad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Herramientas de IA para transcribir y resumir videos largos y material formativo: Ejemplos de plataformas: Gemini, Google Studio y otras; limitaciones por tamaño/token y alternativas con versiones pro o herramientas distintas. Aplicaciones prácticas: generar resúmenes de módulos, extraer indicadores financieros y crear asistentes personalizados (GEMS) para tareas de oficina y análisis de datos.</div>
+                  <div class="content-text">Oferta formativa y asesoría: Cursos de IA orientados a crear asistentes personalizados, mejorar prompts y automatizar análisis de datos y tableros de control.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=4289" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:11:29)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Regulación de la logística y del transporte minero</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Ley y reglamento de transporte de materiales peligrosos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Marco legal: ley del transporte terrestre de materiales y residuos peligrosos y su reglamento (Ley 28256 y DS 021-2008 MTC): Norma base para transporte de sustancias peligrosas aplicable a operaciones mineras.</div>
+                  <div class="content-text">Obligaciones principales de transportistas y titulares: Requisitos técnicos y de carga: Cumplir con la clasificación y señalización según el Libro Naranja (ONU) y asegurar que los vehículos y unidades de carga tengan las condiciones técnicas para una contención segura. Habilitación y documentación: Garantizar la capacitación y licencia especial de los conductores, así como portar la documentación obligatoria (guías de remisión y hoja de seguridad). Gestión de riesgos y emergencias: Contar con planes de contingencia aprobados por la autoridad y pólizas de seguro de responsabilidad civil que cubran daños personales, materiales y ambientales.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=4740" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:19:00)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Superposición normativa y gestión integrada</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Múltiples capas regulatorias que afectan un mismo transporte: MTC, SUNAT, SUCAMEC y SSO: Ejemplo práctico: transporte de cianuro requiere cumplir MTC (cisterna, señalización, embalaje, capacitación), SUNAT (rutas fiscales, guía electrónica, GPS) y SSO (responsabilidad final del titular). Transporte de explosivos agrega capa SUCAMEC con guías de tránsito y posible custodia policial.</div>
+                  <div class="content-text">Implicancias operativas y organizativas: El gerente de logística debe coordinar con cumplimiento, seguridad patrimonial y SSO para integrar requisitos. Un plan de transporte exitoso es multidisciplinario e incorpora requisitos técnicos, administrativos y de seguridad.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=4841" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:20:41)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.3</span>
+                  <span class="subsection-title">Regulaciones adicionales y ordenanzas locales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Existencia de ordenanzas regionales que regulan traslado y comercialización de mineral en su jurisdicción: Impacto en pequeña minería y minería artesanal: obligaciones locales adicionales y comunicación con SENACE u otras autoridades ambientales.</div>
+                  <div class="content-text">Ejemplos recientes: reglamento para transporte y disposición final de relaves y nuevas obligaciones ambientales y de reporte.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=5046" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:24:06)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Clasificación, respuesta y manejo de materiales peligrosos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Clases y etiquetado según Libro Naranja</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">División en nueve clases con rótulos, pictogramas y colores específicos: Clase 1: explosivos (rótulo naranja). Clase 2: gases (subdivisiones inflamables, no inflamables, tóxicos). Clase 3: líquidos inflamables (rótulo rojo). Clase 4: sólidos inflamables (rótulo azul). Clase 5: comburentes y peróxidos orgánicos. Clase 6: venenos e infecciosos (rótulo blanco). Clase 7: materiales radioactivos. Clase 8: sustancias corrosivas (ej. ácido sulfúrico, hipoclorito). Clase 9: misceláneos y residuos peligrosos.</div>
+                  <div class="content-text">Clasificación de residuos peligrosos: reaprovechables y no reaprovechables: Código de colores para residuos no peligrosos y peligrosos; recomendaciones de manejo.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=5135" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:25:35)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Acciones iniciales y planes de respuesta</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Pasos básicos ante un incidente: reconocer, identificar y tomar acciones iniciales: Reconocer: observación de escena sin manipular; uso de rombo NFPA 704 y señales del contenedor. Identificar: mediante número ONU, nombre en contenedor, documentos de transporte o ficha de seguridad (MSDS).</div>
+                  <div class="content-text">Control inicial y actuación de primeros respondedores: Aproximación a favor del viento, distancia mínima de 100-150 m, informar a central de bomberos con datos del contenedor y rombo. Delimitación de zonas: caliente, tibia y fría; priorizar seguridad de respondedores y coordinación con bomberos, policía, municipalidades y hospitales.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=5825" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:37:05)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.3</span>
+                  <span class="subsection-title">Capacitación, herramientas y ejemplos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Importancia de formación práctica y uso de herramientas tecnológicas para transcripción y resumen de videos formativos: Recurso docente: módulos extensos disponibles en video y herramientas de IA (Gemini, XGPT, Jimmy) para resumir contenidos largos.</div>
+                  <div class="content-text">Recomendaciones públicas y de prevención: Difusión del conocimiento sobre carteles de riesgo y procedimientos para evitar accidentes que afecten a personas, bienes y ambiente.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=5891" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:38:11)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Regulación de hidrocarburos en operaciones mineras</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Marco legal y obligaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ley orgánica de hidrocarburos y TUO (Decreto Supremo 042-2005) como marco general: Hidrocarburos in situ son propiedad del Estado; regulaciones para almacenamiento y autoconsumo en minería.</div>
+                  <div class="content-text">Normativa específica de almacenamiento seguro (DS 052-193 y normas conexas): Clasificación de líquidos según punto de inflamación. Tipos de tanques (techo fijo, techo flotante, enterrados) y normas de diseño. Distancias mínimas de seguridad y cubetos de contención impermeables con capacidad suficiente.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=6612" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:50:12)</span> </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Registro, inspección y relación con IQVF</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Obligación de inscripción en registros del sector hidrocarburos para consumidores directos que almacenan combustibles: Requisitos: informe técnico favorable (ITF), solicitud de inscripción y documentación técnica y legal.</div>
+                  <div class="content-text">Intersección normativa: combustibles como IQVF sujetos a fiscalización SUNAT: Doble régimen: cumplimiento de normativa de hidrocarburos y registro especial SUNAT; obligaciones duplicadas en zonas de régimen especial.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=6766" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(01:52:46)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Normativa y trámite para la operación de polvorines</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Autorización de funcionamiento de polvorines y procedimiento detallado</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Trámite TUPA ítem 20: autorización de almacenamiento de explosivos y materiales relacionados: Requisitos técnicos y legislativos: formulario descargable, pago de derechos y presentación de documentos. Plazos de trámite: aproximadamente 16 días en Lima y 22 días en provincias para evaluación e inspección.</div>
+                  <div class="content-text">Documentación requerida y condiciones técnicas: Plano en planta y perfil, copia del diseño estructural, declaración jurada del encargado e informe de medidas de seguridad. Póliza de seguros (excepto en casos de formalización), memoria descriptiva y cartilla de seguridad. Requisitos dimensionales: altura mínima mayor a dos metros y especificaciones de largo, ancho, área y volumen según resolución 453-2021.</div>
+                  <div class="content-text">Inspección de campo y acta de verificación: SUCAMEC realiza inspección, elabora acta con características del polvorín (tipo A, B, superficial, subterráneo, contenedores). Evaluación de materiales constructivos (concreto, metálico, roca), techos, paredes y pisos; observaciones si no cumple.</div>
+                  <div class="content-text">Contratos de uso y formalización: Posibilidad de contratar uso de polvorín de terceros (vecino o empresa autorizada) válido ante SUCAMEC. Para polvorines contratados la inspección puede simplificarse y agilizar trámites para mineros en proceso de formalización.</div>
+                  <div class="content-text">Vigencia y renovaciones: Resoluciones de funcionamiento con vigencia típica anual o extensión hasta cinco años según cumplimiento de estándares. Procedimiento y frecuencia de renovaciones y observaciones registradas en acta de verificación.</div>
+                  <a href="https://www.youtube.com/watch?v=pt0rGNteIWo&start=7212" class="youtube-link" target="_blank"> Ver en YouTube <span class="timestamp">(02:00:12)</span> </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GESTIÓN LOGÍSTICA Y PROVEEDORES EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 20: SEGURIDAD Y NORMATIVA EN EL CONTROL DE INVENTARIOS Y LOGÍSTICA MINERA - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

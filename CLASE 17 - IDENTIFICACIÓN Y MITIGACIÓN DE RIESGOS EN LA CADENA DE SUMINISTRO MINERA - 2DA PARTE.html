@@ -1,0 +1,1747 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Introducción y concepto general de logística minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Diplomados y cursos especializados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Oferta de diplomados y cursos breves especializados en minería: Opciones para profundizar en logística minera o en temas puntuales como sostenibilidad y seguridad en campamentos mineros. Cursos impartidos por distintos instructores y dirigidos a perfiles con disponibilidad variada.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=193" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:03:13)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">Objetivo formativo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Capacitar para gestionar activos y procesos logísticos específicos del sector minero: Incluye capacitación permanente, programas de desarrollo y campañas de comunicación internas para cubrir necesidades por puesto.</div>
+                  <div class="content-text">Recomendación de formación adicional: Cursos de geometalurgia, gestión de activos, Machine Learning para minería 4.0 y gestión de inventarios para profundizar capacidades técnicas y digitales.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=3607" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:07)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Insumos y repuestos críticos por área</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mina (extracción): Explosivos, energía, dientes de cucharón, repuestos de palas, barrenos, brocas, repuestos de perforador.</div>
+                  <div class="content-text">Sistema de acarreo y transporte: Combustible, lubricantes, repuestos de equipos auxiliares, repuestos de camiones y volquetes gigantes.</div>
+                  <div class="content-text">Planta concentradora y molienda: Repuestos de chancadoras y molinos, mallas, polines, fajas transportadoras, bolas de molienda, reactivos, agua y energía.</div>
+                  <div class="content-text">Elixiviación (lixiviación): Reactivos peligrosos (MAPEL), gestión de energía y disponibilidad oportuna de reactivos.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=300" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:05:00)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Funciones y objetivos de la logística minera</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">Control operacional y de inventarios</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Misión de la logística: Brindar servicio óptimo a operaciones y mantenimiento, asegurar cantidad, calidad, costo y beneficio.</div>
+                  <div class="content-text">Cuatro aspectos básicos que controla la mina: Inventario: planificación de reposición prevista y programada. Compras: negociación, selección de mercados y estrategias para desarrollar proveedores óptimos. Tránsito: transporte y planificación de entregas (incluye exportación y manejo de materiales peligrosos). Almacén: almacenamiento seguro de materiales peligrosos, hidrocarburos, alimentos y agua.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=423" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:03)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">Mantenimiento y disponibilidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Integración logística-mantenimiento: Logística debe programar requerimientos de insumos y repuestos para operaciones y mantenimiento. En minería predominan mantenimientos predictivos y programados para evitar inoperatividad.</div>
+                  <div class="content-text">Disponibilidad 24/7: Equipos deben estar disponibles todo el año; la logística debe garantizar reposición y planificación anticipada de repuestos críticos.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=642" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:10:42)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Cadena logística minera y gestión de equipos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Flujo desde extracción hasta venta</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Proveedor → reparación y repuestos → compras y control de inventario: Línea de chancado como ejemplo crítico: mantenimiento planifica, logística compra y administra inventario, proveedor abastece.</div>
+                  <div class="content-text">Fundición y refinería: Fundición/refinería como punto final de mayor valor; almacenamiento y distribución para venta local e internacional.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=839" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:13:59)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Planificación temporal y escalado</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Plazos de planificación: Operaciones mineras planifican con anticipación: 30–120 días o más para compras e inventarios.</div>
+                  <div class="content-text">Auditoría y preparación estacional: Inventarios y compras previstas con meses de antelación según cronograma operativo.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=1579" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:26:19)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Tipos de equipos y repuestos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Equipos de perforación y palas: Diversos modelos de perforadoras y palas hidráulicas con capacidades y repuestos específicos. Repuestos críticos varían por modelo, tonelaje y uso operativo.</div>
+                  <div class="content-text">Volquetes y marcas (Komatsu, Caterpillar): Diferentes series y capacidades (p. ej. 320 t y 240 t) que requieren gestión de repuestos compatibles.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=884" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:14:44)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.4</span>
+                  <span class="subsection-title">Planificación de reparaciones y programación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Coordinación logística-mantenimiento: Logística prepara y dispone materiales cuando mantenimiento emite programación. Trabajo en paralelo según calendario de cambios de equipos y sectores operativos.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=972" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:16:12)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Operación de concentradoras y gestión de proveedores</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Componentes y mantenimiento por etapa</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Chancado (primaria, secundaria, terciaria): Tipos de chancadoras y potencias (ej.: giratoria, NORPEN, MP800, Raptor XL) y sus necesidades de repuestos.</div>
+                  <div class="content-text">Molienda (bolas, barras): Molinos de diferentes dimensiones y marcas requieren piezas y fajas específicas según medida y presión.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=1036" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:17:16)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Diferenciación frente al sector industrial</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Diversidad y complejidad de piezas: Medidas, presiones y estructuras varían; no son intercambiables como en industria convencional.</div>
+                  <div class="content-text">Curva de aprendizaje: Conocer equipos a fondo requiere años; mejor conocimiento mejora planificación y calidad de repuestos.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=1118" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:18:38)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Homologación y alianzas estratégicas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Homologación de proveedores y personal: Requisito habitual en minería (certificaciones, capacitaciones y pases de acceso). Asegura procesos productivos y calidad requerida por la mina.</div>
+                  <div class="content-text">Contratos y relaciones a largo plazo: Contratos marco para ítems estratégicos y commodities. Alianzas obligatorias para garantizar desempeño y suministro continuo.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=1190" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:19:50)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.4</span>
+                  <span class="subsection-title">Selección y clasificación de insumos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Identificación de insumos críticos vs no críticos: Definir qué piezas no pueden fallar y cuáles pueden almacenarse a mayor plazo. Estrategias de almacenamiento para reducción de costos y aseguramiento de producción.</div>
+                  <div class="content-text">Proveedores locales e internacionales: Evaluar fiabilidad, capacidad de aumento de volumen y complejidad técnica de insumos.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=1471" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:24:31)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Procesos y seguridad en minería a cielo abierto</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Etapas y evaluación del yacimiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Modelado y evaluación: Morfología del mineral, criterios topográficos y técnicos para determinar rentabilidad y método de explotación.</div>
+                  <div class="content-text">Integración interdisciplinaria: Geología, metalurgia y laboreo trabajan conjuntamente para planificar explotación.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=1622" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:27:02)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Impacto ambiental y técnicas de extracción</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Voladuras controladas: Diseño de barrenos, mezcla explosiva (ANFO), seguridad y secuencias de detonación para fragmentar roca minimizando polvo.</div>
+                  <div class="content-text">Consecuencias ambientales y sociales: Afectación a flora/fauna y cercanía a poblaciones; necesidad de buenas prácticas y controles.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=1777" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:29:37)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.3</span>
+                  <span class="subsection-title">Diseño geométrico y drenaje</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Preparación del hueco y accesos: Rampas, pozos, niveles y control de muros y taludes.</div>
+                  <div class="content-text">Gestión del agua: Estudios hidroecológicos, represas, canales, tratamiento de aguas residuales, drenaje interior y bombeo.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=2131" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:35:31)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.4</span>
+                  <span class="subsection-title">Maquinaria, energía y personal</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Selección de maquinaria y gestión de activos: Especificaciones, capacidad, rendimiento, vida útil y depreciación.</div>
+                  <div class="content-text">Recursos humanos y supervisión: Operadores, mantenimiento, supervisión y sistemas de control/supervisión.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=2160" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:36:00)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Métodos de extracción y procesos metalúrgicos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Métodos de explotación y operaciones asociadas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Métodos comunes: Tajo abierto, contorno, mixto, hidráulico, terrazas, canteras; cada uno con pasos de preparación, arranque, carga, transporte y disposición de estériles.</div>
+                  <div class="content-text">Actividades diarias: Acceso, preparación, carga, transporte a planta, acopio y disposición de residuos.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=2332" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:38:52)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Ventajas y desventajas técnico-económico-social</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Ventajas técnicas y económicas: Alta mecanización, productividad, menor costo unitario, posibilidad de explotar ley baja.</div>
+                  <div class="content-text">Desventajas: Dependencia climática, limitación de profundidad, alto impacto ambiental y elevada inversión inicial.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=2399" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:39:59)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.3</span>
+                  <span class="subsection-title">Trituración, molienda y flotación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Procesos de reducción de tamaño: Trituración en varias etapas y molienda con agua para formar pulpa; separación por flotación con reactivos y aire.</div>
+                  <div class="content-text">Concentrado y manejo de colas: Espesadores, filtrado para 10% humedad, colas enviadas a presa de jales; recuperación de agua (~75%).</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=3282" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:54:42)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.4</span>
+                  <span class="subsection-title">Lixiviación, extracción por solventes y electroobtención</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Lixiviación por pilas: Riego con ácido sulfúrico para extraer cobre de material de media ley; bombeo y recolección de soluciones.</div>
+                  <div class="content-text">ESDE (extracción por solventes y electrodeposición): Purificación y electrodeposición para obtener cátodos de alta pureza (99.99%) y producción de alambrón.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=3084" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:51:24)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Subproductos, control ambiental y seguridad ocupacional</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Subproductos y valorización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recuperación de metales preciosos y subproductos: Lodo anódico con oro, plata, selenio; concentrados de molibdeno recuperables y comercializables.</div>
+                  <div class="content-text">Uso del dióxido de azufre: Conversión a ácido sulfúrico para uso interno y venta.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=3413" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:56:53)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Seguridad y salud ocupacional</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cultura de prevención y objetivo cero accidentes: Sistemas para identificar, controlar y mitigar riesgos, capacitación y corrección de actos/condiciones inseguras.</div>
+                  <div class="content-text">Protección del personal y control de inventarios de alto valor: Medidas especiales de seguridad y custodia para minerales valiosos y control de accesos a zonas sensibles.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=3549" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:59:09)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Minería subterránea: conceptos, métodos y riesgos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Componentes básicos y logística subterránea</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Accesos y niveles: Acceso horizontal (galerías), acceso vertical (piques/chimeneas) y rampas en espiral para conectar niveles. Niveles numerados (nivel 0, 1, 2, 3...) con sistemas de ventilación y oxigenación críticos por profundidad.</div>
+                  <div class="content-text">Unidades de explotación y caserones: Caserones y frentes de extracción interconectados, con infraestructura productiva y sistemas de transporte interno. Módulos de seguridad: cámaras de oxígeno, intercomunicación y protocolos de emergencia para evacuación y primeros auxilios.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=4248" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:10:48)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Métodos de explotación subterránea</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Soportados por pilares (room and pillar): Cuerpos mantiformes de baja potencia; recuperación hasta ~75%, dilución baja (<5%).</div>
+                  <div class="content-text">Relleno artificial (cut-and-fill, room and fill, backfill): Excavación por subniveles con relleno (colas de relaves, cementos) para estabilidad y mayor recuperación.</div>
+                  <div class="content-text">Longitudinales y sublevel (sublevel stoping, longhole): Extracción por subniveles con tronaduras largas; mayor productividad, requiere control de dilución y equipos telecomandados.</div>
+                  <div class="content-text">Vertical Crater Retreat (VCR) y variants (01:19:47): Uso en cuerpos de baja-mediana potencia con cargas controladas; exige estocadas y secuencias de disparos largas, dilución ~10% y recuperación <80%.</div>
+                  <div class="content-text">Binge and Fill / Block caving (01:41:01): Block caving: hundimiento controlado por gravedad, extracción desde base de producción, método económico para yacimientos masivos y profundos. Ejemplo: División El Teniente utiliza caving para explotar grandes volúmenes aprovechando la gravedad y reduciendo uso de explosivos.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=4418" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:13:38)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.3</span>
+                  <span class="subsection-title">Riesgos y requisitos operativos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Riesgos principales: Inestabilidad de techos y paredes, caída de material, flujo aguabarro, colapso y dificultad de evacuación. Oxigenación insuficiente y dependencia de sistemas de ventilación; fallo del sistema afecta toda la operación.</div>
+                  <div class="content-text">Controles y mitigación: Diseño geológico preciso, sistemas de ventilación redundantes, protocolos de emergencia, cámaras de oxígeno y comités interdisciplinarios de seguridad. Automatización y operaciones semi/tele-operadas para reducir exposición de personal (LHD semiautónomos operados desde centros remotos).</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=4163" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:09:23)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Métodos específicos: características técnicas y productivas</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Room and pillar y variaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Aplicación y geometría: Cuerpos mineralizados mantiformes, potencias 10–30 m; pilares diseñados para estabilidad y maximizar recuperación.</div>
+                  <div class="content-text">Productividad y dilución: Recuperación moderada, dilución baja; depende de tamaño de caserones y diseño de pilares.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=4486" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:46)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Cut-and-fill, sublevel y panel methods</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Cut-and-fill: Muy selectivo, subniveles ascendentes, relleno hidráulico o con colas, dilución baja (~2%) y alta recuperación en cuerpos irregulares.</div>
+                  <div class="content-text">Sublevel stoping: Ciclos de perforación, tronadura, carguío y transporte; permite extracción en franjas con hundimiento controlado de la caja.</div>
+                  <div class="content-text">Panel/block methods (block baking, panel carving): Aplicables a cuerpos masivos; extracción por paneles ramificados y ductos para conducción de mineral hacia puntos de extracción.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=5122" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:25:22)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Caso práctico: División El Teniente y operaciones caving</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Escala, organización y continuidad productiva</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Contexto operativo: El Teniente: mina subterránea en Chile, explotación desde hace ~120 años; proyectos Andes Norte, Andesita y Diamante para extender vida útil ~50 años. Producción diaria de roca >140.000 t; equivalencia de extraer un cerro cada ~20 días.</div>
+                  <div class="content-text">Manejo del hundimiento y subsidencia (01:44:43): Control del ángulo de subsidencia para ubicar infraestructura fuera del envolvente afectado. Monitoreo de deformación superficial y planificación para evitar impacto en edificaciones.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=5950" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:39:10)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Riesgos específicos en Block Caving</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Flujo aguabarro y humedad (01:46:53): Columnas de mineral quebrado con humedad >7–10% pueden generar pulsos o pistones que inundan labores y equipos. Medidas: automatización de producción, eliminación de exposición humana en puntos de riesgo y comités de seguridad intergerenciales.</div>
+                  <div class="content-text">Producción y transporte interno (01:42:07): Sistemas de manejo alimentan piques y ferrocarriles internos; chancadores primarios y correas que conducen a plantas de superficie.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=6345" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:45:45)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Regulación, normativas y transporte</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Marco legal y supervisión</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Leyes y decretos aplicables: Ley General de Minería, Texto Único Ordenado (TUO) y decretos supremos que regulan seguridad, salud ocupacional y gestión ambiental. Normas específicas: Decreto Supremo 014-92, reglamentos de seguridad 024-2016 y otros aplicables.</div>
+                  <div class="content-text">Organismos reguladores: MINEM (Ministerio de Energía y Minas) y organismos supervisores de la inversión y fiscalización minera.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=6914" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:55:14)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Transporte, guías y requisitos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Normativa de transporte y concesiones: Decreto Supremo 040-2014 sobre transporte, evaluación de impacto ambiental y concesiones de transporte. Aplicación diferenciada para pequeña minería. Pequena minería: concesiones y autorizaciones regionales específicas para transporte minero.</div>
+                  <div class="content-text">Documentación obligatoria: Guías de remisión (remitente y transportista), constancias y registros para transporte de minerales y sustancias peligrosas (ej.: ácido sulfúrico). Supervisión de inventarios y trazabilidad. Sistemas de control (ej.: integración de sonares y plataformas) permiten a la mina y autoridades verificar declaraciones de inventario y detectar anomalías que deben ser justificadas.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=7111" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:58:31)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Normativa contable y cierre de mina</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Normas contables aplicables</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Marco contable y planificación financiera: Aplicación de NIF, NIC y plan contable general empresarial para el reconocimiento y medición de activos mineros.</div>
+                  <div class="content-text">Normas específicas relevantes: NIF 6 / ANIM-6: exploración y evaluación de recursos minerales, políticas contables con información relevante y fiable. NIF 16 / ANIM-6: propiedad, planta y equipo; tratamiento contable de maquinaria y depreciación en función de reservas. CINIF 20: costos de desmonte en fase productiva; criterios de reconocimiento y medición entre activo y gasto. NIF 15: ingresos ordinarios; liquidación de ventas de concentrados y registro contable de ventas.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=7267" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:01:07)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Medición, agotamiento y cierre</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Tratamiento de activos y provisiones: Reconocimiento de activos, medición del agotamiento, deterioro y capitalización de costos asociados al ciclo de vida del proyecto.</div>
+                  <div class="content-text">Requisitos para cierre de mina: Provisiones y estimaciones contables para el cierre, descontaminación y rehabilitación según normativa aplicable.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=7313" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:01:53)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Conclusiones y cierre de la sesión</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Síntesis de contenidos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Resumen de temas abordados: Logística minera: procesos, insumos, planificación y cadena de suministro. Métodos de extracción: tajo abierto y subterráneo, diferencias operativas y de riesgo. Procesos metalúrgicos, normativa y seguridad.</div>
+                  <div class="content-text">Observaciones finales sobre operación y riesgos: Subterráneo: mayor riesgo y complejidad operativa; cielo abierto: mayor necesidad de voladura y movimiento masivo de material.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=7509" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:05:09)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Cierre administrativo y recomendaciones formativas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Información logística de seguimiento: Próxima sesión y canales de atención DUMIN para consultas.</div>
+                  <div class="content-text">Recomendaciones de formación continua: Cursos cortos y diplomados sugeridos sobre geometalurgia, planificación minera, logística y herramientas digitales para mejorar gestión y toma de decisiones.</div>
+                  <a href="https://www.youtube.com/watch?v=OPARsAlelcE&start=7847" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:10:47)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GESTIÓN LOGÍSTICA Y PROVEEDORES EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 17: IDENTIFICACIÓN Y MITIGACIÓN DE RIESGOS EN LA CADENA DE SUMINISTRO MINERA - 2DA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>

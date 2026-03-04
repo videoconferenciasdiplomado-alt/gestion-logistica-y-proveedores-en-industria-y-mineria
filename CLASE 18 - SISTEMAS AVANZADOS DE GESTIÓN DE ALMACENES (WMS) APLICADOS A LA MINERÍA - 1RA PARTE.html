@@ -1,0 +1,1899 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+      /* Estilos de balanceo de texto */
+      .header-content-box,
+      .header-compact-title,
+      .footer,
+      .section-title,
+      .subsection-title {
+        text-wrap: balance;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      :root {
+        /* Colores Principales del Diseño (Acentos y Degradados) */
+        /* ======================================================= */
+        --color-principal: #00beff; /* Cian Brillante para acentos, bordes y el inicio del degradado principal */
+        --color-secundario: #1e50cd; /* Azul Medio, parte final del degradado de acento */
+
+        /* Fondos Oscuros de la Interfaz */
+        /* ======================================================= */
+        --fondo-oscuro-claro: #002a52; /* Fondo de secciones y contenido */
+        --fondo-oscuro-fuerte: #001a33; /* Fondo del encabezado (header) y pie de página (footer) */
+        /* ======================================================= */
+        --fondo-oscuro-medio: #003366; /* Fondo de encabezados y cajas de contenido */
+        --fondo-borde-claro: #004080; /* Bordes ligeros y color de fondo al hacer hover en encabezados */
+        --fondo-sombra-azul-header: #0050a0; /* ¡NUEVO! Sombra en el header */
+
+        /* Colores de Texto y Fondo General del Body */
+        /* ======================================================= */
+        --texto-blanco-1: #ffffff; /* Blanco puro para títulos y texto en fondo muy oscuro */
+        --texto-claro-2: #e6e6e6; /* Texto principal y claro */
+        --texto-medio-3: #cccccc; /* Texto de contenido de item (un poco más tenue) */
+
+        /* ======================================================= */
+        --fondo-body-inicio: #99e5ff; /* Color de inicio del degradado de fondo del body */
+        --fondo-body-fin: #a5b9eb; /* Color de final del degradado de fondo del body */
+
+        /* Colores de Acento Específicos (YouTube, Búsqueda) */
+        /* ======================================================= */
+        --rojo-youtube-claro: #e60000;
+        --rojo-youtube-fuerte: #a30000;
+        --timestamp-youtube: #ffcccc;
+        --fondo-resaltado: #00c339; /* Verde para el fondo del texto buscado */
+
+        /* Bases RGB para Transparencias (RGBA) */
+        /* ======================================================= */
+        --sombra-rgb: 0, 0, 0; /* Negro puro: Usado para sombras generales y profundidad */
+        --acento-rgb: 0, 190, 255; /* Cian Brillante: Usado para brillos y sombras de acento */
+        --rojo-rgb: 230, 0, 0; /* Rojo Puro: Usado para sombras de enlaces de YouTube */
+        /* ======================================================= */
+        --gradient-principal: linear-gradient(135deg, var(--color-principal) 0%, var(--color-secundario) 100%);
+      }
+
+      body {
+        background: linear-gradient(135deg, var(--fondo-body-inicio) 0%, var(--fondo-body-fin) 100%);
+        line-height: 1.2;
+        scroll-behavior: smooth;
+      }
+
+      strong#tituloDiplomado {
+        font-weight: 900;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      @keyframes slideDownSutil {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header.animacion-inicial {
+        animation: slideDownSutil 0.4s ease-out 1;
+        animation-fill-mode: forwards;
+        will-change: transform, opacity;
+      }
+
+      .header {
+        position: relative;
+        width: 100%;
+        z-index: 1000;
+        padding: 20px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        box-shadow: 0 5px 15px rgba(var(--sombra-rgb), 0.5);
+        text-align: center;
+        will-change: transform;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header-text-box {
+        display: grid;
+        gap: 10px;
+        word-break: break-word;
+        margin: 0 15px;
+      }
+
+      .header.compact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+      }
+
+      .header-spacer {
+        display: none;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .header.compact + .header-spacer {
+        display: block;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .header.compact .header-top {
+        display: none;
+      }
+
+      .logo {
+        width: 140px;
+        height: auto;
+        margin: 0 15px;
+        transition: all 0.3s ease;
+        vertical-align: middle;
+      }
+
+      .header.compact .logo {
+        width: 90px;
+        margin: 0 10px;
+      }
+
+      .header .logo.compact-logo {
+        display: none;
+      }
+
+      .header.compact .logo.compact-logo {
+        display: block;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 900;
+      }
+
+      .header.compact h1 {
+        font-size: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+      }
+
+      .header-content-box {
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 20px 20px;
+        box-shadow: 0 8px 20px rgba(var(--acento-rgb), 0.6);
+        overflow: hidden;
+        margin-bottom: 15px;
+
+        opacity: 1;
+        transform: translateY(0);
+        will-change: transform;
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .header-content-box {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        border: 0;
+        transform: translateY(-10px);
+      }
+
+      .header-content-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(var(--acento-rgb), 0.8);
+      }
+
+      .header-bottom-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header-second-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .header.compact .header-bottom-row {
+        flex-grow: 1;
+      }
+
+      .logo-and-title {
+        opacity: 0;
+        overflow: hidden;
+        transform: translateY(-10px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+
+      .header.compact .logo-and-title {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .header.compact .header-bottom-row .logo-and-title {
+        will-change: transform;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 100%;
+        background: var(--gradient-principal);
+        border-radius: 12px;
+        padding: 10px;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        gap: 10px;
+      }
+
+      .header.compact .header-bottom-row .logo-and-title:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .header-compact-title {
+        display: none;
+        color: var(--texto-blanco-1);
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 10px;
+        white-space: normal;
+      }
+
+      .header.compact .header-compact-title {
+        display: block;
+      }
+
+      .search-bar {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 450px;
+        background-color: var(--fondo-oscuro-medio);
+        border: 2px solid var(--fondo-borde-claro);
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(var(--sombra-rgb), 0.25);
+        will-change: border-color, background-color;
+        transition:
+          border-color 0.3s ease,
+          box-shadow 0.3s ease,
+          background-color 0.3s ease;
+      }
+
+      .search-bar:focus-within {
+        border-color: var(--fondo-sombra-azul-header);
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .clear-search {
+        cursor: pointer;
+        color: var(--texto-claro-2);
+        padding: 5px;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1;
+        display: none;
+        transition: color 0.2s ease;
+        transform: scale(1.5);
+      }
+
+      .clear-search:hover {
+        color: var(--texto-blanco-1);
+      }
+
+      .search-bar input {
+        flex-grow: 1;
+        padding: 10px 18px;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--texto-claro-2);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        min-width: 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .header.compact .search-bar input {
+        padding: 10px 20px;
+      }
+
+      .search-actions {
+        display: flex;
+        align-items: center;
+      }
+
+      .action-button {
+        background: var(--gradient-principal);
+        border: none;
+        color: var(--texto-blanco-1);
+        padding: 8px 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        will-change: transform;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(var(--acento-rgb), 0.4);
+        max-width: 150px;
+        white-space: normal;
+      }
+
+      .action-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(var(--acento-rgb), 0.5);
+      }
+
+      .search-bar .action-button {
+        margin: 5px;
+      }
+
+      .controls {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      @keyframes fadeInUpContent {
+        0% {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .mind-map {
+        transition: margin-top 0.4s ease;
+        margin: 50px 0;
+      }
+
+      .mind-map.animacion-contenido {
+        animation: fadeInUpContent 0.4s ease-out 1 forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+
+      .section {
+        margin-bottom: 20px;
+        background-color: var(--fondo-oscuro-claro);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-oscuro-medio);
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(var(--sombra-rgb), 0.25);
+        transition: border-color 0.3s ease;
+      }
+
+      .section-header {
+        padding: 20px;
+        background-color: var(--fondo-oscuro-medio);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .section-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 5px 12px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 15px;
+      }
+
+      .toggle-icon {
+        font-size: 1.2rem;
+        color: var(--texto-claro-2);
+        will-change: transform;
+        transition: transform 0.3s ease;
+      }
+
+      .section.active > .section-header .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .section.active .section-content {
+        max-height: fit-content;
+        padding-bottom: 10px;
+        opacity: 1;
+      }
+
+      .subsection {
+        margin: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border: 2px solid var(--fondo-borde-claro);
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+      }
+
+      .subsection:hover {
+        border-color: var(--fondo-sombra-azul-header);
+      }
+
+      .subsection:hover .subsection-header {
+        background-color: var(--fondo-sombra-azul-header);
+      }
+
+      .section:hover {
+        border-color: var(--fondo-borde-claro);
+      }
+
+      .section:hover .section-header {
+        background-color: var(--fondo-borde-claro);
+      }
+
+      .subsection-header {
+        padding: 15px;
+        background-color: var(--fondo-borde-claro);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        will-change: background-color;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+      }
+
+      .subsection-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--texto-claro-2);
+        margin-right: 10px;
+      }
+
+      .subsection-number {
+        background: var(--gradient-principal);
+        color: var(--texto-blanco-1);
+        padding: 4px 10px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 700;
+        margin-right: 12px;
+      }
+
+      .subsection-content {
+        max-height: 0;
+        overflow: hidden;
+        background-color: var(--fondo-oscuro-claro);
+        opacity: 0;
+        transition:
+          max-height 0.5s ease-out,
+          opacity 0.3s ease-in;
+      }
+
+      .subsection.active .subsection-content {
+        max-height: fit-content;
+        padding: 15px;
+        opacity: 1;
+      }
+
+      .subsection.active .toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .content-item {
+        margin-bottom: 10px;
+        padding: 15px;
+        background-color: var(--fondo-oscuro-medio);
+        border-radius: 12px;
+        border-left: 4px solid var(--color-principal);
+        box-shadow: 0 1px 5px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .content-text {
+        color: var(--texto-medio-3);
+        margin-bottom: 5px;
+        line-height: 1.4;
+        font-size: 1rem;
+        font-weight: 500;
+        position: relative;
+        padding-left: 15px;
+      }
+
+      .content-text::before {
+        content: "•";
+        color: var(--color-principal);
+        font-weight: 700;
+        display: inline-block;
+        position: absolute;
+        left: 0px;
+      }
+
+      .youtube-link {
+        display: inline-block;
+        padding: 10px 18px;
+        background: linear-gradient(135deg, var(--rojo-youtube-claro) 0%, var(--rojo-youtube-fuerte) 100%);
+        color: var(--texto-blanco-1);
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1rem;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(var(--rojo-rgb), 0.4);
+        will-change: transform;
+      }
+
+      .youtube-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 7.5px rgba(var(--rojo-rgb), 0.5);
+        will-change: transform;
+      }
+
+      .timestamp {
+        color: var(--timestamp-youtube);
+        font-size: 0.85rem;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+
+      .highlight {
+        background-color: var(--fondo-resaltado);
+        color: var(--texto-blanco-1);
+        font-weight: 700;
+        padding: 4px;
+        border-radius: 6px;
+      }
+
+      .footer {
+        padding: 30px;
+        background: linear-gradient(135deg, var(--fondo-oscuro-fuerte) 0%, var(--fondo-oscuro-claro) 100%);
+        border-top: 1px solid var(--fondo-oscuro-medio);
+        text-align: center;
+        box-shadow: 0 -2px 10px rgba(var(--sombra-rgb), 0.25);
+      }
+
+      .footer-text {
+        color: var(--texto-claro-2);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .footer-logo {
+        width: 140px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .header-top {
+          flex-direction: column;
+        }
+
+        .logo {
+          margin: 0;
+        }
+
+        .header-text-box {
+          margin: 0;
+        }
+
+        .header h1 {
+          font-size: 1.5rem;
+        }
+
+        .header p {
+          font-size: 1rem;
+        }
+
+        .header.compact .header-bottom-row .logo-and-title {
+          gap: 5px;
+        }
+        .logo,
+        .footer-logo {
+          width: 105px;
+        }
+
+        .header.compact .header-bottom-row {
+          flex-direction: column;
+        }
+
+        .header.compact .header-compact-title {
+          margin: 0 5px;
+          font-size: 0.8rem;
+        }
+
+        .header.compact .logo.compact-logo {
+          width: 65px;
+          margin: 5px;
+        }
+
+        .action-button,
+        .search-bar input,
+        .clear-search {
+          font-size: 0.9rem;
+        }
+
+        .section-header {
+          padding: 15px;
+        }
+
+        .header.compact .controls {
+          flex-direction: row;
+        }
+
+        .section-title {
+          font-size: 1.1rem;
+        }
+
+        .subsection-title {
+          font-size: 1rem;
+        }
+        .section-number,
+        .subsection-number {
+          font-size: 13px;
+        }
+
+        .content-text {
+          font-size: 0.9rem;
+        }
+
+        .youtube-link {
+          font-size: 0.8rem;
+        }
+
+        .timestamp {
+          font-size: 0.75rem;
+        }
+
+        .header.compact .action-button {
+          padding: 6px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header animacion-inicial">
+      <div class="header-content-box">
+        <div class="header-top">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo" />
+          </a>
+          <div class="header-text-box">
+            <h1>
+              <div>DIPLOMADO DE ALTA ESPECIALIZACIÓN EN</div>
+              <strong id="tituloDiplomado" style="display: block"></strong>
+            </h1>
+            <p id="tituloPrincipal"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom-row">
+        <div class="logo-and-title">
+          <a href="https://www.edumin.pe/" target="_blank">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="logo compact-logo" />
+          </a>
+          <span class="header-compact-title" id="tituloCompacto"></span>
+        </div>
+        <div class="header-second-row">
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar en el resumen interactivo…" autocomplete="off" />
+            <div class="search-actions">
+              <span class="clear-search" onclick="clearSearch()">&times;</span>
+              <button class="action-button" onclick="searchContent()">Buscar</button>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="action-button" onclick="expandAll()">Mostrar todo</button>
+            <button class="action-button" onclick="collapseAll()">Colapsar todo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-spacer"></div>
+
+    <div class="container">
+      <div class="mind-map animacion-contenido" id="mindMap">
+        <div class="section" data-section="1">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">1</span>
+              <span class="section-title">Definición y propósito del WMS</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.1</span>
+                  <span class="subsection-title">Bienvenida y recapitulación de clases previas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Saludos iniciales y verificación de asistentes recurrentes: Algunos alumnos asistieron a diplomados previos con el docente.</div>
+                  <div class="content-text">Recordatorio de contenidos anteriores sobre identificación e ingreso de riesgos en logística minera: Importancia de elaborar la matriz de riesgos; se ofrece sesión práctica si no se abordó antes.</div>
+                  <div class="content-text">Plan de las próximas sesiones y actividades prácticas: Temas: sistemas avanzados de gestión de almacenes, seguridad informativa en control de inventario y dos sesiones prácticas.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=193" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:03:13)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.2</span>
+                  <span class="subsection-title">¿Qué es un WMS y qué hace?</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Software para gestionar y controlar operaciones diarias de almacén desde la entrada hasta la salida de mercancías: Visibilidad en tiempo real del inventario y lo que está en tránsito.</div>
+                  <div class="content-text">Funcionalidades principales: Gestión de inventario, picking, embalaje, uso de recursos y analíticas. Integración con sensores y tecnologías (códigos de barras, RFID, cámaras). Manejo de procesos de empaque: desde PC, terminales de radiofrecuencia y dispositivos móviles.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=425" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:05)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">1.3</span>
+                  <span class="subsection-title">Impacto en minería</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Entorno minero que justifica un WMS: condiciones extremas y dependencia de equipos especializados: Mejora disponibilidad de repuestos críticos y reduce tiempos de inactividad en faenas remotas.</div>
+                  <div class="content-text">Beneficios operativos específicos: Reducción de tiempos de espera, minimización de costos de almacenamiento y trazabilidad total. Facilita gestión remota y toma de decisiones basada en datos en tiempo real.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=495" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:08:15)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="2">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">2</span>
+              <span class="section-title">Tipos de WMS y modelos de implementación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.1</span>
+                  <span class="subsection-title">WMS independiente / On-premise</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Instalado en infraestructura propia con servidores locales: Mayor personalización y control estricto sobre datos.</div>
+                  <div class="content-text">Ventajas e inconvenientes: Propiedad total del sistema. Mayor costo inicial y de mantenimiento; difícil integrar nuevas tecnologías con el tiempo.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=585" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:09:45)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.2</span>
+                  <span class="subsection-title">WMS en la nube / SaaS</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Soluciones alojadas por proveedores y entregadas como servicio: Implementación más rápida y costos iniciales menores.</div>
+                  <div class="content-text">Ventajas y gestión de actualizaciones: Escalabilidad, actualizaciones periódicas, inversión en seguridad y recuperación ante desastres. Integración más sencilla con otras soluciones por actualizaciones constantes.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=640" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:10:40)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">2.3</span>
+                  <span class="subsection-title">Modelo híbrido / integrado con ERP</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Módulos o aplicaciones integradas con ERP y plataformas de cadena de suministro: Visión holística del negocio y coordinación entre logística y contabilidad.</div>
+                  <div class="content-text">Beneficios operativos: Transparencia de punta a punta, optimización conjunta de procesos e integración con SAP EWM u otros módulos avanzados.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=707" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:11:47)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="3">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">3</span>
+              <span class="section-title">Requisitos y capacidades clave de un WMS eficiente</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.1</span>
+                  <span class="subsection-title">Preferencia por soluciones en la nube</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Evita gestionar hardware propio y problemas de obsolescencia: Ejemplo: migración de SAP Business One a la nube por compatibilidad y mantenimiento.</div>
+                  <div class="content-text">Consideraciones para elegir proveedor de nube: Disponibilidad, seguridad, actualizaciones, modelo tarifario por usuario, certificaciones (ISO 27001) y referencias de clientes.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=738" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:12:18)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.2</span>
+                  <span class="subsection-title">Funcionalidades avanzadas esperadas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Automatización e incorporación de IA/ML: Algoritmos para optimizar stock, planificación de demanda y modelos predictivos basados en Big Data.</div>
+                  <div class="content-text">Precisión y trazabilidad: Control por lotes, fechas de caducidad; uso de RFID y opciones de auditoría inmutable (blockchain) según necesidad.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=901" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:01)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">3.3</span>
+                  <span class="subsection-title">Interfaz e integración</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Interfaz adaptable y compatibilidad con dispositivos móviles para monitoreo en campo: Integración con ERP, TMS y otras plataformas; soporte para hand-held, pistolas de escaneo, voice picking y uso de celulares como lectores.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=919" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:19)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="4">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">4</span>
+              <span class="section-title">Aplicaciones específicas en gestión de materiales y repuestos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.1</span>
+                  <span class="subsection-title">Optimización de inventarios críticos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Rol en mantenimiento predictivo y disponibilidad de repuestos estratégicos: Coordinación con software de mantenimiento predictivo para anticipar reposiciones según ciclo de vida de equipos. Reduce costos por almacenamiento innecesario y riesgo de desabastecimiento.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=950" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:15:50)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.2</span>
+                  <span class="subsection-title">Gestión de materiales peligrosos y cumplimiento ambiental</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Control de explosivos, reactivos y químicos con protocolos estrictos: Registro por lotes, vencimientos y permisos de acceso; uso de sensores para monitorizar condiciones y digitalizar auditorías.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=974" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:16:14)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">4.3</span>
+                  <span class="subsection-title">Optimización de espacios en almacenes subterráneos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Limitaciones de espacio requieren planificación meticulosa: Algoritmos volumétricos, diseño de planta y simulaciones para maximizar utilización y reducir tiempos de búsqueda.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=999" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:16:39)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="5">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">5</span>
+              <span class="section-title">Tecnologías de identificación y captura de datos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.1</span>
+                  <span class="subsection-title">Código de barras vs RFID</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Código de barras: solución económica, permite usar celulares como lectores: Adecuado para implementaciones de menor coste y mínimos requisitos tecnológicos.</div>
+                  <div class="content-text">RFID: lecturas automáticas y captura masiva de datos: Facilita inventarios rápidos, integración con drones y portales de detección.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=1032" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:17:12)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">5.2</span>
+                  <span class="subsection-title">Sensores, cámaras y visión aumentada</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sensores y cámaras aumentan visibilidad y control; integración con IoT y visión artificial: Uso según inversión tecnológica y objetivos operativos; realidad aumentada para asistencias de picking.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=469" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:07:49)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="6">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">6</span>
+              <span class="section-title">Beneficios operativos y funciones clave del WMS</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.1</span>
+                  <span class="subsection-title">Beneficios generales</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Mejora niveles de servicio, exactitud en inventarios y optimización de espacio: Prevención de obsolescencia, reportes personalizables y reportería automatizada con métricas clave.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=1168" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:19:28)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">6.2</span>
+                  <span class="subsection-title">Funciones operativas del WMS</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Recepción y almacenamiento con Pick-to-Voice y Pick-to-Light: Aceleran localización y preparación de mercancía.</div>
+                  <div class="content-text">Picking, packing y envíos: Soporte para picking por zona, pedido u oleada; integración con transportistas para generación de guías, registro de placas y precintos.</div>
+                  <div class="content-text">Control laboral y KPIs: Monitoreo de desempeño de operarios y evaluación por indicadores.</div>
+                  <div class="content-text">Administración de muelle y andenes: Gestión de accesos, planificación de andenes y consolidación de cargas.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=1199" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:19:59)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="7">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">7</span>
+              <span class="section-title">Selección e implementación de un WMS</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.1</span>
+                  <span class="subsection-title">Requisitos para seleccionar un WMS</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Elegir un WMS con automatización y verificación para evitar pérdidas y mejorar servicio: Compatibilidad con ERP (SAP, Oracle, Microsoft) como requisito indispensable.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=1456" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:24:16)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">7.2</span>
+                  <span class="subsection-title">Pasos recomendados para la elección</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Formar comité de selección con usuarios clave: Garantiza aceptación y cubre necesidades de distintas áreas.</div>
+                  <div class="content-text">Definir desafíos comerciales y requisitos presentes y futuros: Mapear funcionalidades, sistemas y soporte; preparar pruebas y demos.</div>
+                  <div class="content-text">Elaborar presupuesto e ROI proyectado: Incluir costos ocultos: implementación, hardware, soporte y capacitación.</div>
+                  <div class="content-text">Buscar proveedores y preparar RFP: Preseleccionar, solicitar demos, verificar certificaciones y referencias.</div>
+                  <div class="content-text">Evaluar demostraciones y negociar contrato: Importancia de implementación, pruebas piloto y medición de ahorros con KPIs.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=1818" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:30:18)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="8">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">8</span>
+              <span class="section-title">Panorama de soluciones WMS en el mercado</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.1</span>
+                  <span class="subsection-title">Ejemplos y casos de uso de WMS destacados</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">ShipHero: distribuidores generales, replenishment móvil: Precio base ejemplo: desde $1,995/mes con 5 usuarios.</div>
+                  <div class="content-text">Fishbowl: e-commerce y order management: Integración multicanal; precio estimado $150–$200 por usuario/mes.</div>
+                  <div class="content-text">3PL Warehouse Manager: 3PL y multi-cliente: Funciones por lotes y ship engine; desde $599/mes.</div>
+                  <div class="content-text">Northstar WMS: distribución alimentaria: Control de alérgenos y cumplimiento HACCP/FSMA; desde $500/mes.</div>
+                  <div class="content-text">Proveedores locales y globales: Mecalux, Softion y alternativas ligeras para PyMEs.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=2115" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:35:15)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">8.2</span>
+                  <span class="subsection-title">Observaciones sobre oferta de mercado</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Variedad de soluciones para distintos tamaños y sectores: Desde plataformas para pymes hasta sistemas enterprise (Blue Yonder, SAP).</div>
+                  <div class="content-text">Relevancia de integración con CRM/ERP y EDI para planificación y predicción: Evaluar certificaciones, casos de éxito y compatibilidad hardware (Zebra, Siemens).</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=2505" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:41:45)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="9">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">9</span>
+              <span class="section-title">Demostración y funcionalidades prácticas del WMS</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.1</span>
+                  <span class="subsection-title">Características de la aplicación WMS mostrada</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Aplicación en nube, multidispositivo e integración con ERP y TMS: Control de indicadores, procesos y compatibilidad con móviles.</div>
+                  <div class="content-text">Gestión de usuarios y roles: Permisos por bodegas, restricciones por proveedor o cliente.</div>
+                  <div class="content-text">Módulos de reportes, arqueos e historial de órdenes: Consultas tipo cubo, plantillas guardables y trazabilidad por horas y usuarios.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=2739" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:45:39)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.2</span>
+                  <span class="subsection-title">Maestros y configuración inicial</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Maestros esenciales: productos, localizaciones, proveedores, clientes y puntos de entrega: Importación vía APIs o plantillas Excel; personalización de formularios y etiquetas (QR, códigos de barras).</div>
+                  <div class="content-text">Maestro de productos y plantillas de visualización: Inclusión de atributos extendidos: lote, caducidad, dimensiones y peso teórico.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=2981" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:49:41)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">9.3</span>
+                  <span class="subsection-title">Maestro de localizaciones y parámetros físicos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Definición de pasillos, estantes, niveles y posiciones con parámetros de capacidad: Multi-lote y multiproducto; cálculo de pesos y volúmenes máximos.</div>
+                  <div class="content-text">Mapeo de secciones (secado, refrigerado, freezer) y uso de bin locations.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=3187" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:53:07)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="10">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">10</span>
+              <span class="section-title">Ciclo operativo: recepción, almacenamiento y preparación</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.1</span>
+                  <span class="subsection-title">Recepción y control</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Documentos fuente: órdenes de compra, producción, transferencias y devoluciones: El WMS compara recepciones con documentos y reporta sobrantes/faltantes.</div>
+                  <div class="content-text">Proceso práctico en bodega: Conteo en muelle, palletizado, etiquetado (QR con lote y caducidad) y check-in con handheld.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=3315" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:55:15)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.2</span>
+                  <span class="subsection-title">Almacenamiento y surtido de zonas de picking</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Almacenamiento dinámico según demanda y configuraciones de zonas: Transferencias de overstock a picking manteniendo FIFO y control de lotes.</div>
+                  <div class="content-text">Principios de localización física: Ubicar alta rotación cerca de muelles y agrupar productos complementarios; separar incompatibles.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=3383" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:56:23)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.3</span>
+                  <span class="subsection-title">Gestión de pedidos y métodos de importación</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Entrada de pedidos: integraciones, archivos planos o creación directa en WMS: Panel de clientes y selección de productos; priorización y agrupamiento por ruta o urgencia.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=3408" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:56:48)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.4</span>
+                  <span class="subsection-title">Asignaciones, picking y packing</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Envío de cargas de trabajo y tipos de picking: por pedido, por zona o por oleada: Balanceo de cargas, rutas optimizadas y uso de automatización interna.</div>
+                  <div class="content-text">Ciclos de conteo y ajustes: Cycle counts en ubicaciones de picking y sincronización automática con contabilidad.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=3500" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(00:58:20)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">10.5</span>
+                  <span class="subsection-title">Gestión de despacho y cierre de muelle</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Integración con transportistas para selección, generación de guías y registro de placas/precintos: Funcionalidad de route returns para recepción de devoluciones y reasignación de stock.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=3607" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:00:07)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="11">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">11</span>
+              <span class="section-title">Reportería, análisis predictivo y toma de decisiones</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.1</span>
+                  <span class="subsection-title">Reportes y plantillas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Reportes tipo cubo personalizables y plantillas guardables: Consultas por localizaciones, productos y atributos extendidos; visualización gráfica y exportación.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=3720" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:02:00)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.2</span>
+                  <span class="subsection-title">Optimización de espacio y sostenibilidad</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Técnicas: almacenamiento vertical, dinámico y estanterías automatizadas: Algoritmos según demanda y rotación; uso de vehículos eléctricos autónomos para manipulación interna.</div>
+                  <div class="content-text">Reducción de desperdicios y consumo energético: Embalajes reciclables, iluminación y climatización automatizada.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=4491" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:14:51)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.3</span>
+                  <span class="subsection-title">Análisis predictivo y KPIs</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Modelos predictivos e IA para anticipar demanda y condiciones operativas: Análisis de tendencias históricas y factores del mercado para pronósticos precisos.</div>
+                  <div class="content-text">Métricas para medir impacto: KPIs: tiempos de pedido, costo por metro cúbico, rotación y tiempos de reposición; medir antes y después de la implementación.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=5015" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:23:35)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">11.4</span>
+                  <span class="subsection-title">Impacto en emisiones y economía circular</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Planificación de rutas y optimización de transporte para reducir emisiones: Transporte colaborativo y gestión del ciclo de vida de embalajes y activos.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=5161" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:26:01)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="12">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">12</span>
+              <span class="section-title">Principios para la localización de materiales en un almacén</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.1</span>
+                  <span class="subsection-title">Objetivos de la localización</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Minimizar costos de manipulación y distancias recorridas: Ajustarse a preparación de pedidos, maximizar uso de espacio y evitar incompatibilidades.</div>
+                  <div class="content-text">Seguridad y control: Reducir riesgos de accidentes y facilitar control sobre materiales peligrosos.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=6610" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:50:10)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">12.2</span>
+                  <span class="subsection-title">Principios y técnicas</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Clasificación por rotación (Pareto) para ubicar productos de alta demanda cerca de muelles: Implementar pareto detallado para priorizar ubicaciones.</div>
+                  <div class="content-text">Agrupamiento por complementariedad y restricciones: Ubicar productos que se despachan juntos próximos; separar incompatibles.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=6658" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:50:58)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="13">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">13</span>
+              <span class="section-title">Ciclo de almacenamiento: etapas y control operativo</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.1</span>
+                  <span class="subsection-title">Gestión de entradas de mercancías</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Planificación de recepción basada en inventarios previstos: Uso de código de barras o RFID para asistir la recepción y evitar errores.</div>
+                  <div class="content-text">Asignación de operadores y traslado rápido a zonas de almacenamiento.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=6818" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:53:38)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.2</span>
+                  <span class="subsection-title">Gestión de almacenamiento</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Asignación de localizaciones según principios de localización: Estado de locaciones (ocupado/libre), control de palets vacíos y mapas actualizados del almacén.</div>
+                  <div class="content-text">Conteos cíclicos y masivos: Ejecutados en periodos de baja actividad y gestionados por el WMS.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=6911" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:55:11)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.3</span>
+                  <span class="subsection-title">Gestión de preparación de pedidos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Actividad intensiva en recursos; el WMS optimiza tiempos y costes: Medir tiempos actuales y proyectados; exigir evidencia de ahorro al proveedor.</div>
+                  <div class="content-text">Priorización y ejecución coordinada: Agrupar por ruta o unidad de transporte; dividir pedidos para ejecución simultánea.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=7011" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:56:51)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">13.4</span>
+                  <span class="subsection-title">Gestión de despacho</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Asegurar agrupamiento por unidad de transporte en muelle correspondiente: Preparación para carga rápida y coordinación final con transportistas; documentación digitalizada.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=7190" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(01:59:50)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="14">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">14</span>
+              <span class="section-title">Innovaciones tecnológicas en la automatización de procesos logísticos</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.1</span>
+                  <span class="subsection-title">Uso de drones en inventarios y mapeo</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Drones para auditoría e inventarios en almacenes abiertos y cerrados: Minimizan intervención humana y recorren grandes superficies en menos tiempo. Requieren etiquetado consistente (RFID o códigos de barras) para lecturas precisas.</div>
+                  <div class="content-text">Mapeo 3D y monitoreo en tiempo real: Generan cartografías y detectan desajustes en disposición de inventario; útiles en diseño de espacios y ajustes productivos. Aplicaciones en minería: mapeo de túneles y galerías con drones especializados y jaulas protectoras.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=7407" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:03:27)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.2</span>
+                  <span class="subsection-title">Tipos de drones y capacidades</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Modelos con distintas autonomías y sensores: Drones con cámaras 4K, sensores térmicos, iluminación a prueba de polvo y sistemas LiDAR para mapeo. Autonomía variable (ej.: 10 minutos a 1 hora según tipo); considerar logística de recarga y operación continua.</div>
+                  <div class="content-text">Software y costos de implementación: Plataformas para control y procesamiento de datos en tablet/celular; posibilidad de alquiler frente a compra en operaciones puntuales. Ejemplo empresarial: pruebas de DHL mostrando lecturas de hasta 600 palés por hora y reducción de costos y tiempos en inventarios.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=7514" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:05:14)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">14.3</span>
+                  <span class="subsection-title">Requisitos mínimos para integrar drones con WMS</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Adhesión a prácticas básicas de identificación: Un WMS debe estar amarrado a un sistema mínimo de código de barras o RFID para control de entradas y salidas.</div>
+                  <div class="content-text">Evaluación de costo-beneficio: Considerar frecuencia de uso, capacitación de operadores y modelos de servicio (alquiler vs compra).</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=7828" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:10:28)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" data-section="15">
+          <div class="section-header" onclick="toggleSection(this)">
+            <div style="display: flex; align-items: center">
+              <span class="section-number">15</span>
+              <span class="section-title">Ciclo de cierre y control de carga</span>
+            </div>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="section-content">
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.1</span>
+                  <span class="subsection-title">Organización de la carga en la unidad de transporte</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Orden de carga: últimas en cargarse son las primeras en entregarse (LIFO aplicado a entregas): Requiere que mercancías estén organizadas en muelle para que la secuencia de carga respete rutas de entrega.</div>
+                  <div class="content-text">Documentación y control antes de salida: Emisión de guías de remisión, facturas y documentos de circulación desde el sistema. Control de pesos: pesada de la unidad antes y después de carga para detectar discrepancias. Diferencia entre peso real y teórico puede indicar errores de carga o sustracción de mercancía. Caso práctico: detección de robo en Buenaventura mediante control de pesos y revisión física.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=7203" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:03)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.2</span>
+                  <span class="subsection-title">Resumen operativo y recomendaciones</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">El WMS integra recepción, almacenamiento, preparación y despacho con trazabilidad y visibilidad en tiempo real: Recomendar demos, pruebas piloto y evaluación de integración con ERP como primer paso.</div>
+                  <div class="content-text">Enfoque práctico para implementación: Formar comité, definir KPIs, solicitar pruebas y mediciones antes/después; preferir proveedores con certificaciones y casos de éxito locales.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=7200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:00)</span></a>
+                </div>
+              </div>
+            </div>
+
+            <div class="subsection">
+              <div class="subsection-header" onclick="toggleSubsection(this)">
+                <div style="display: flex; align-items: center">
+                  <span class="subsection-number">15.3</span>
+                  <span class="subsection-title">Actividades prácticas y contacto</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+              </div>
+              <div class="subsection-content">
+                <div class="content-item">
+                  <div class="content-text">Sesiones prácticas: matriz de riesgos y ejercicio de Pareto en próximas clases: Caso práctico asignado: distribuir productos en un patio o almacén real (ej.: Uchichacua), estimar dimensiones y pesos promedio y calcular metros cuadrados disponibles.</div>
+                  <div class="content-text">Comunicaciones y cierre: Envío de enlace de la grabación y recordatorio de próxima clase; canales de atención y horario de soporte para coordinación académica.</div>
+                  <a href="https://www.youtube.com/watch?v=4Csvbg5hywg&start=7200" class="youtube-link" target="_blank">Ver en YouTube <span class="timestamp">(02:00:00)</span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="https://www.edumin.pe/" target="_blank">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/LOGO%20BLANCO%20CANVA-mIKMypQ452RzmXVMUadb6mnvPaejXD.png" alt="EDUMIN Logo" class="footer-logo" />
+      </a>
+      <p class="footer-text">
+        <span style="display: block; font-weight: bold">Contenido desarrollado por EDUMIN - Centro de Capacitación Especializado en Minería, Industria y Negocios</span>
+        <span style="display: block; font-style: italic">Material exclusivo para estudiantes de EDUMIN</span>
+        <a href="https://www.edumin.pe/" target="_blank" style="color: var(--color-principal); text-decoration: none; display: block">https://www.edumin.pe/</a>
+      </p>
+    </div>
+
+    <script>
+      const TITULO_DIPLOMADO = "GESTIÓN LOGÍSTICA Y PROVEEDORES EN INDUSTRIA Y MINERÍA".toUpperCase();
+      const TITULO_CLASE = "CLASE 18: SISTEMAS AVANZADOS DE GESTIÓN DE ALMACENES (WMS) APLICADOS A LA MINERÍA - 1RA PARTE".toUpperCase();
+
+      const elementoDiplomado = document.getElementById("tituloDiplomado");
+      if (elementoDiplomado) {
+        elementoDiplomado.innerText = TITULO_DIPLOMADO;
+      }
+
+      document.title = TITULO_CLASE;
+      const tituloPrincipal = document.getElementById("tituloPrincipal");
+      if (tituloPrincipal) {
+        tituloPrincipal.innerText = TITULO_CLASE;
+      }
+
+      const tituloCompacto = document.getElementById("tituloCompacto");
+      if (tituloCompacto) {
+        tituloCompacto.innerText = TITULO_CLASE;
+      }
+
+      function toggleSection(element) {
+        const section = element.closest(".section");
+        const wasActive = section.classList.contains("active");
+
+        section.classList.toggle("active");
+
+        if (wasActive) {
+          const subsections = section.querySelectorAll(".subsection");
+          subsections.forEach((subsection) => {
+            subsection.classList.remove("active");
+          });
+        }
+      }
+
+      function toggleSubsection(element) {
+        const subsection = element.closest(".subsection");
+        subsection.classList.toggle("active");
+      }
+
+      function expandAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.add("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.add("active");
+        });
+      }
+
+      function collapseAll() {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+
+        const subsections = document.querySelectorAll(".subsection");
+        subsections.forEach((subsection) => {
+          subsection.classList.remove("active");
+        });
+      }
+
+      function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func.apply(this, args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, delay);
+        };
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        searchInput.value = "";
+        clearBtn.style.display = "none";
+        searchContent();
+        searchInput.focus();
+      }
+
+      const createDiacriticInsensitiveRegex = (term) => {
+        const charMap = {
+          a: "[aáAÁ]",
+          e: "[eéEÉ]",
+          i: "[iíIÍ]",
+          o: "[oóOÓ]",
+          u: "[uúUÚ]",
+        };
+
+        const regexString = term
+          .split("")
+          .map((char) => {
+            const lowerChar = char.toLowerCase();
+            return charMap[lowerChar] || char;
+          })
+          .join("");
+
+        return new RegExp(`(${regexString})`, "gi");
+      };
+
+      function searchContent() {
+        const inputElement = document.getElementById("searchInput");
+        const searchTerm = inputElement.value.trim();
+
+        const searchableElements = document.querySelectorAll(".content-text, .section-title, .subsection-title");
+        let found = false;
+        let firstMatchElement = null;
+
+        document.querySelectorAll(".section.active").forEach((el) => el.classList.remove("active"));
+        document.querySelectorAll(".subsection.active").forEach((el) => el.classList.remove("active"));
+        searchableElements.forEach((element) => {
+          element.innerHTML = element.getAttribute("data-original-text") || element.textContent;
+        });
+
+        if (searchTerm.length < 3) {
+          return;
+        }
+
+        const searchRegex = createDiacriticInsensitiveRegex(searchTerm);
+
+        searchableElements.forEach((element) => {
+          const originalText = element.getAttribute("data-original-text") || element.textContent;
+
+          if (searchRegex.test(originalText)) {
+            found = true;
+
+            element.innerHTML = originalText.replace(searchRegex, `<span class="highlight">$1</span>`);
+
+            const subsection = element.closest(".subsection");
+            if (subsection) {
+              subsection.classList.add("active");
+              subsection.closest(".section")?.classList.add("active");
+            } else if (element.classList.contains("section-title")) {
+              element.closest(".section")?.classList.add("active");
+            }
+
+            if (!firstMatchElement) {
+              firstMatchElement = element;
+            }
+          }
+        });
+
+        if (firstMatchElement) {
+          requestAnimationFrame(() => {
+            firstMatchElement.scrollIntoView({
+              behavior: "smooth",
+              block: "center",
+            });
+          });
+        } else if (searchTerm.length >= 3) {
+          alert("No se encontraron resultados para: " + searchTerm);
+        }
+      }
+
+      const debouncedSearch = debounce(searchContent, 300);
+
+      document.getElementById("searchInput").addEventListener("input", function () {
+        const clearBtn = document.querySelector(".search-actions .clear-search");
+        clearBtn.style.display = this.value.length > 0 ? "block" : "none";
+        debouncedSearch();
+      });
+
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          clearTimeout(this._timeoutId);
+          searchContent();
+        }
+      });
+
+      // --- Lógica del Header Compacto ---
+      const header = document.querySelector(".header");
+      const headerSpacer = document.querySelector(".header-spacer");
+      let initialHeaderHeight = 0; // Altura del header original
+      let compactHeaderHeight = 0; // Altura del header en modo compacto
+      let scrollTriggerPoint = 0; // Punto de scroll para activar el cambio
+
+      function handleHeaderState() {
+        const scrollY = window.scrollY || document.documentElement.scrollTop;
+
+        if (scrollY > scrollTriggerPoint) {
+          if (!header.classList.contains("compact")) {
+            header.classList.add("compact");
+            headerSpacer.style.height = `${initialHeaderHeight}px`;
+          }
+        } else {
+          if (header.classList.contains("compact")) {
+            header.classList.remove("compact");
+            headerSpacer.style.height = "0px";
+          }
+        }
+      }
+
+      function initializeHeader() {
+        initialHeaderHeight = header.offsetHeight;
+        const headerClone = header.cloneNode(true);
+        headerClone.classList.add("compact");
+        headerClone.style.visibility = "hidden";
+        headerClone.style.position = "absolute";
+        document.body.appendChild(headerClone);
+        compactHeaderHeight = headerClone.offsetHeight;
+        document.body.removeChild(headerClone);
+
+        scrollTriggerPoint = initialHeaderHeight - compactHeaderHeight;
+      }
+
+      document.addEventListener("DOMContentLoaded", initializeHeader);
+      window.addEventListener("scroll", handleHeaderState);
+      window.addEventListener("resize", debounce(initializeHeader, 200));
+    </script>
+  </body>
+</html>
